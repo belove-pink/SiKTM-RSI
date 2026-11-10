@@ -29,7 +29,7 @@ class AuthController extends Controller
         // Jika akun ada dan kata sandi cocok, login berhasil
         if ($dataAkun && $this->verifikasiKataSandi($kataSandi, $dataAkun->kataSandi)) {
             // Simpan id pengguna ke sesi
-        session(['idPengguna' => $dataAkun->idPengguna]);
+            session(['idPengguna' => $dataAkun->idPengguna]);
 
             // Tentukan dashboard sesuai peran
             $peranPengguna = $this->identifikasiPeran($dataAkun);
