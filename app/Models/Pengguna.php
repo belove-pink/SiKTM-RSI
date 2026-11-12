@@ -6,8 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pengguna extends Model
 {
-    // Nama tabel dan primary key sesuai PDM
     protected $table = 'Pengguna';
+
     protected $primaryKey = 'idPengguna';
+
     public $timestamps = false;
+
+    protected $fillable = [
+        'nim',
+        'nama',
+        'kataSandi',
+        'peran',
+        'idFakultas'
+    ];
 }
