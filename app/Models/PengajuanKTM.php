@@ -20,4 +20,13 @@ class PengajuanKTM extends Model
         'status',
         'tanggalPengajuan'
     ];
+
+    public function mahasiswa()
+{
+    return $this->belongsTo(
+        Mahasiswa::class,
+        'idPengguna',
+        'idPengguna'
+    );
+}
 }

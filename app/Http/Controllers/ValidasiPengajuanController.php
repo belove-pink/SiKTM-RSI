@@ -99,4 +99,26 @@ class ValidasiPengajuanController extends Controller
             'Keputusan verifikasi berhasil disimpan.'
         );
     }
+
+    // Menampilkan halaman verifikasi pengajuan KTM
+public function halamanVerifikasi($idPengajuan)
+{
+    $pengajuan = PengajuanKTM::findOrFail($idPengajuan);
+
+    // Pemeriksaan awal berdasarkan data pengajuan
+    $pengajuanAktifBank = PengajuanKTM::where('nim', $pengajuan->nim)
+        ->where('jalur', 'Bank')
+        ->whereIn('status', ['Diajukan', 'Diverifikasi'])
+        ->where('idPengajuan', '!=', $idPengajuan)
+        ->exists();
+
+    $validasiLolos = !(
+        $pengajuan->jalur === 'Rektorat' && $pengajuanAktifBank
+    );
+
+    return view('verifikasi-pengajuan', compact(
+        'pengajuan',
+        'validasiLolos'
+    ));
+}
 }
