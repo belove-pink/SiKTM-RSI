@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ValidasiPengajuanController;
 use App\Http\Controllers\TrackStatusController;
+use App\Http\Controllers\KontrolRekap;
 
 // Halaman utama
 Route::get('/', function () {
@@ -100,3 +101,9 @@ Route::get('/preview-status-pengajuan', function () {
         ],
     ]);
 });
+
+// Halaman Rekapitulasi KTM (ZN-UC05)
+Route::get('/rekap-ktm', [
+    KontrolRekap::class,
+    'tampilkanRekapitulasi'
+])->name('rekap-ktm');
