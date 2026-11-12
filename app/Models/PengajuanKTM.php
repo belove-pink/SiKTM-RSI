@@ -22,11 +22,26 @@ class PengajuanKTM extends Model
     ];
 
     public function mahasiswa()
-{
-    return $this->belongsTo(
-        Mahasiswa::class,
-        'idPengguna',
-        'idPengguna'
-    );
-}
+    {
+        return $this->belongsTo(
+            Mahasiswa::class,
+            'idPengguna',
+            'idPengguna'
+        );
+    }
+
+    // cariDataPengajuan(nim): pengajuan terbaru milik NIM tersebut
+    public static function cariDataPengajuan(string $nim): ?self
+    {
+        return static::where('nim', $nim)
+            ->orderByDesc('tanggalPengajuan')
+            ->orderByDesc('idPengajuan')
+            ->first();
+    }
+
+    // bacaStatusPengajuan(): status pengajuan ini
+    public function bacaStatusPengajuan(): string
+    {
+        return $this->status;
+    }
 }
