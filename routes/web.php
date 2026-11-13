@@ -59,7 +59,7 @@ Route::get('/preview-pengajuan-terkirim', function () {
 });
 
 // Preview tampilan UI-07 tanpa database
-Route::get('/preview-verifikasi', function () {
+Route::get('/verifikasi-ktm', function () {
     return view('verifikasi-pengajuan', [
         'pengajuan' => (object) [
             'idPengajuan' => 1,
