@@ -117,3 +117,6 @@ Route::get('/rekap-ktm', [
     KontrolRekap::class,
     'tampilkanRekapitulasi'
 ])->name('rekap-ktm');
+Route::get('/beranda-mahasiswa', function () {
+    return view('beranda-mahasiswa');
+});
