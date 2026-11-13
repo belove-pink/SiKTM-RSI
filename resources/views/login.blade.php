@@ -38,6 +38,11 @@
     button { display: block; width: 100%; height: 3.9rem; border-radius: 1.1rem; font-family: inherit; font-size: 1.25rem; font-weight: 700; color: #000; cursor: pointer; }
     .masuk { margin-top: 2.88rem; border: none; background: #f2aa00; }
     .sso { margin-top: 0.875rem; border: 0.19rem solid #13305a; background: #fff; }
+
+    /* State gagal login */
+    .alert { margin: -1.2rem 0 1.4rem; padding: 1rem 1.1rem; background: #fbdcdc; color: #a12a2a; font-size: 0.95rem; font-weight: 700; border-radius: 0.8rem; }
+    select.error, input.error { border-color: #d93025; }
+
   </style>
 </head>
 <body>
@@ -60,11 +65,14 @@
     <div class='kanan'>
       <div class='card'>
         <h2>Masuk</h2>
+        @if (session('error'))
+          <div class='alert'>{{ session('error') }}</div>
+        @endif
         <form method='POST' action='/login'>
           @csrf
           <!-- Dropdown masuk sebagai / angkatan (angkatan mahasiswa dipetakan ke peran Mahasiswa) -->
           <label for='peran'>Masuk sebagai/Angkatan</label>
-          <select id='peran' name='peran'>
+          <select id='peran' name='peran' class="{{ session('error') ? 'error' : '' }}">
             <option value='Mahasiswa'>2026</option>
             <option value='Mahasiswa'>2025</option>
             <option value='Mahasiswa'>2024</option>
@@ -74,11 +82,11 @@
 
           <!-- Field identitas akun -->
           <label for='nim' class='l2'>NIM/Email</label>
-          <input type='text' id='nim' name='nim' placeholder='NIM'>
+          <input type='text' id='nim' name='nim' placeholder='NIM' value="{{ old('nim') }}" class="{{ session('error') ? 'error' : '' }}">
 
           <!-- Field kata sandi -->
           <label for='kataSandi' class='l3'>Kata Sandi</label>
-          <input type='password' id='kataSandi' name='kataSandi' placeholder='Kata Sandi'>
+          <input type='password' id='kataSandi' name='kataSandi' placeholder='Kata Sandi' class="{{ session('error') ? 'error' : '' }}">
 
           <button type='submit' class='masuk'>Masuk</button>
         </form>
