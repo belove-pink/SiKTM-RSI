@@ -48,6 +48,16 @@ Route::post('/pengajuan-ktm/verifikasi/{idPengajuan}', [
 Route::get('/status-pengajuan', [TrackStatusController::class, 'index'])->name('status-pengajuan');
 Route::post('/status-pengajuan', [TrackStatusController::class, 'kirimNIM'])->name('status-pengajuan.kirim');
 
+// Preview tampilan UI-06 ZN Pengajuan Terkirim tanpa database 
+Route::get('/preview-pengajuan-terkirim', function () {
+    return view('pengajuan-terkirim', [
+        'namaMahasiswa' => 'Contoh Mahasiswa',
+        'alasan' => 'KTM baru',
+        'jalur' => 'Rektorat',
+        'tanggal' => '13 November 2026',
+    ]);
+});
+
 // Preview tampilan UI-07 tanpa database
 Route::get('/preview-verifikasi', function () {
     return view('verifikasi-pengajuan', [
