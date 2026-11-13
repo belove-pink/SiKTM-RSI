@@ -7,10 +7,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
+            --heading-font: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif;
             --frame: 1200px; /* makin kecil = konten makin sempit */
         }
 
@@ -18,10 +19,19 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+        }
+
+        /* Bricolage Grotesque hanya untuk judul halaman & logo */
+        .brand-name,
+        .page-title {
+            font-family: var(--heading-font);
+            font-optical-sizing: none;
+            font-variation-settings: 'opsz' 96; /* bentuk huruf display, seperti di desain */
         }
 
         body {
+            font-weight: 500;
             background: #dce8f8;
             color: #17345d;
         }
@@ -63,7 +73,7 @@
 
         .brand-univ {
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
             letter-spacing: 0.2px;
             margin-left: 2px;
         }
