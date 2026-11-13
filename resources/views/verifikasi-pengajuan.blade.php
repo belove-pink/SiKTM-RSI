@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,25 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verifikasi Pengajuan KTM</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --frame: 1200px; /* makin kecil = konten makin sempit */
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
         }
 
         body {
             background: #dce8f8;
-            color: #17365f;
+            color: #17345d;
         }
 
-        /* HEADER */
+        /* ================= HEADER ================= */
         header {
-            min-height: 55px;
+            height: 66px;
             background: #17345d;
-            color: white;
-            padding: 0 4%;
+            color: #ffffff;
+            padding: 0 max(3%, calc((100% - var(--frame)) / 2 + 37px));
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -36,324 +43,367 @@
             gap: 10px;
         }
 
-        .logo {
-            width: 27px;
-            height: 27px;
-            border: 2px solid #d6a52b;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #d6a52b;
-            font-size: 12px;
-            font-weight: bold;
+        .logo-img {
+            width: 33px;
+            height: 33px;
+            object-fit: contain;
+            display: block;
         }
 
-        .brand h2 {
-            font-size: 17px;
-            font-weight: 700;
+        .brand-name {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
         }
 
-        .brand span {
+        .brand-name .accent {
+            color: #f5ad00;
+        }
+
+        .brand-univ {
             font-size: 13px;
-            font-weight: normal;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            margin-left: 2px;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 32px;
-            height: 55px;
+            gap: 45px;
+            height: 66px;
         }
 
         nav a {
-            color: #e3eaf4;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 500;
             height: 100%;
             display: flex;
             align-items: center;
+            border-bottom: 3px solid transparent;
+            padding-top: 3px;
         }
 
         nav a.active {
-            border-bottom: 3px solid #f5ad00;
+            border-bottom-color: #f5ad00;
         }
 
-        /* MAIN */
+        /* ================= MAIN ================= */
         main {
             width: 100%;
-            max-width: none;
-            padding: 0 4%;
-            margin: 45px auto 45px;
+            padding: 0 max(5.7%, calc((100% - var(--frame)) / 2 + 72px));
+            margin: 60px auto 68px;
         }
 
         .page-title {
-            font-size: 34px;
+            font-size: 32px;
             font-weight: 800;
+            letter-spacing: -1px;
             color: #17345d;
-            margin-bottom: 30px;
+            margin-bottom: 33px;
         }
 
         .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-items: start;
+            gap: 38px;
+            align-items: stretch;
         }
 
         .left-column {
             display: flex;
             flex-direction: column;
-            gap: 22px;
+            gap: 27px;
             min-width: 0;
         }
 
         .card {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 21px;
+            padding: 24px 22px;
         }
 
-        .card h3 {
-            font-size: 21px;
-            color: #17345d;
-            margin-bottom: 25px;
-        }
-
-        /* DATA MAHASISWA */
+        /* ---- Data mahasiswa ---- */
         .data-label {
-            font-size: 16px;
-            color: #718096;
-            margin-bottom: 14px;
+            font-size: 13px;
+            color: #5f7188;
+            margin-bottom: 20px;
         }
 
         .student-name {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 700;
             color: #17345d;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .student-info {
-            font-size: 16px;
-            color: #344b6b;
-            margin-bottom: 22px;
+            font-size: 13px;
+            color: #2f4466;
+            margin-bottom: 14px;
         }
 
         .document-title {
-            font-size: 16px;
-            color: #718096;
-            margin-bottom: 12px;
+            font-size: 13px;
+            color: #5f7188;
+            margin-bottom: 9px;
         }
 
         .document-row {
             background: #f3f6fb;
-            padding: 15px;
+            padding: 12px 10px;
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 15px;
-            margin-bottom: 10px;
-            color: #344b6b;
-            gap: 12px;
+            gap: 9px;
+            font-size: 13px;
+            color: #2f4466;
+            margin-bottom: 15px;
+        }
+
+        .document-row:last-child {
+            margin-bottom: 0;
         }
 
         .document-row span {
             overflow-wrap: anywhere;
         }
 
-        .document-row strong {
+        .document-row a {
             color: #17345d;
+            font-weight: 700;
+            text-decoration: none;
             white-space: nowrap;
         }
 
-        /* VALIDASI */
+        /* ---- Validasi otomatis ---- */
         .validation {
-            padding: 26px 25px;
-            border-radius: 16px;
-            background: {{ $validasiLolos ? '#d5f1e5' : '#fce2df' }};
+            padding: 30px 30px;
+            border-radius: 21px;
+            flex: 1;
+        }
+
+        .validation.pass {
+            background: #d5f1e5;
+        }
+
+        .validation.fail {
+            background: #fce2df;
         }
 
         .validation h4 {
-            font-size: 17px;
-            margin-bottom: 12px;
-            color: {{ $validasiLolos ? '#16805a' : '#b42318' }};
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
         .validation p {
-            font-size: 15px;
-            line-height: 1.6;
-            color: {{ $validasiLolos ? '#258466' : '#912018' }};
+            font-size: 13px;
+            line-height: 1.55;
         }
 
-        /* KEPUTUSAN */
+        .validation.pass h4 { color: #16805a; }
+        .validation.pass p  { color: #258466; }
+        .validation.fail h4 { color: #b42318; }
+        .validation.fail p  { color: #912018; }
+
+        /* ---- Keputusan ---- */
         .decision-card {
-            padding: 30px;
+            padding: 28px 22px 26px;
             min-width: 0;
         }
 
         .decision-card h3 {
-            margin-bottom: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #17345d;
+            margin-bottom: 22px;
         }
 
         .decision-option {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin: 0 0 22px 10px;
-            font-size: 16px;
-            color: #344b6b;
+            gap: 16px;
+            margin: 0 0 22px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #2f4466;
             cursor: pointer;
         }
 
+        /* radio custom: lingkaran tipis, terpilih = titik navy */
         .decision-option input {
-            accent-color: #17345d;
-            width: 18px;
-            height: 18px;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            margin: 0;
+            border: 2px solid #e3e8f0;
+            border-radius: 50%;
+            background: transparent;
             cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .decision-option input:checked {
+            border-color: transparent;
+            background: radial-gradient(circle, #17345d 0 4px, transparent 5px);
         }
 
         .note-label {
             display: block;
-            font-size: 16px;
-            color: #718096;
-            margin: 28px 0 12px;
+            font-size: 13px;
+            color: #5f7188;
+            margin: 26px 0 10px 6px;
         }
 
         textarea {
             width: 100%;
-            min-height: 100px;
-            border: 1px solid #8195b1;
+            height: 78px;
+            border: 1px solid #17345d;
             border-radius: 8px;
-            padding: 14px;
+            padding: 10px;
             resize: vertical;
-            font-size: 15px;
+            font-size: 12px;
             outline: none;
         }
 
         textarea:focus {
-            border-color: #17345d;
+            box-shadow: 0 0 0 2px rgba(23, 52, 93, 0.15);
         }
 
         button {
             width: 100%;
-            background: #f5aa00;
+            background: #f5ad00;
             color: #17345d;
             border: none;
             border-radius: 8px;
-            padding: 16px;
-            margin-top: 15px;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 10px;
+            margin-top: 18px;
+            font-size: 13px;
+            font-weight: 700;
             cursor: pointer;
         }
 
         button:hover {
-            background: #e99e00;
+            background: #e69f00;
         }
 
         .admin-note {
-            color: #718096;
-            font-size: 13px;
-            margin-top: 13px;
+            color: #5f7188;
+            font-size: 12px;
+            margin-top: 14px;
+            margin-left: 6px;
         }
 
-        /* NOTIFIKASI */
+        /* ---- Notifikasi ---- */
         .message {
-            padding: 15px;
+            padding: 11px 14px;
             border-radius: 8px;
-            font-size: 15px;
-            margin-bottom: 18px;
+            font-size: 11px;
+            margin-bottom: 16px;
         }
 
-        .success {
+        .message.success {
             background: #d5f1e5;
             color: #16805a;
         }
 
-        .error {
+        .message.error {
             background: #fce2df;
             color: #b42318;
         }
 
-        /* FOOTER */
+        /* ================= FOOTER ================= */
         footer {
             background: #17345d;
-            color: white;
-            min-height: 210px;
-            padding: 45px 7%;
+            color: #ffffff;
+            padding: 60px max(7%, calc((100% - var(--frame)) / 2 + 87px)) 68px;
         }
 
         .footer-content {
             width: 100%;
-            margin: auto;
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: 1fr 180px 120px;
+            gap: 30px;
+            align-items: start;
         }
 
         .footer-brand h2 {
-            font-size: 20px;
-            line-height: 1.5;
-            margin-bottom: 14px;
+            font-size: 21px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 20px;
         }
 
         .footer-brand p {
-            color: #c5d2e4;
-            font-size: 12px;
+            color: #dbe5f3;
+            font-size: 10px;
             line-height: 1.7;
-            max-width: 350px;
+            max-width: 315px;
         }
 
         .footer-links h4 {
-            font-size: 13px;
-            margin-bottom: 14px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
         }
 
         .footer-links a {
             display: block;
-            color: #c5d2e4;
-            font-size: 12px;
+            color: #dbe5f3;
+            font-size: 10px;
             margin-bottom: 9px;
-            text-decoration: none;
+            text-decoration: underline;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 700px) {
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 900px) {
             header {
                 height: auto;
-                padding: 15px 5%;
+                padding: 16px 5%;
                 flex-direction: column;
                 gap: 12px;
             }
 
             nav {
-                gap: 18px;
-                height: 35px;
+                height: 40px;
+                gap: 24px;
                 flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 15px;
             }
 
             main {
                 padding: 0 5%;
-                margin: 30px auto;
+                margin: 36px auto 50px;
+            }
+
+            .page-title {
+                font-size: 30px;
+                margin-bottom: 28px;
             }
 
             .content {
                 grid-template-columns: 1fr;
+                gap: 24px;
             }
 
-            .page-title {
-                font-size: 27px;
-            }
-
-            .card {
-                padding: 22px;
+            .card,
+            .validation {
+                border-radius: 20px;
             }
 
             .footer-content {
                 grid-template-columns: 1fr 1fr;
-                gap: 25px;
             }
 
             .footer-brand {
@@ -367,15 +417,21 @@
 
 <header>
     <div class="brand">
-        <div class="logo">UB</div>
-        <h2>SiKTM <span>UNIVERSITAS BRAWIJAYA</span></h2>
+        <img
+            src="{{ asset('images/logo-ub.png') }}"
+            alt="Logo Universitas Brawijaya"
+            class="logo-img"
+        >
+
+        <span class="brand-name">Si<span class="accent">KTM</span></span>
+        <span class="brand-univ">UNIVERSITAS BRAWIJAYA</span>
     </div>
 
     <nav>
         <a href="#" class="active">Beranda</a>
         <a href="#">Riwayat</a>
         <a href="#">Bantuan</a>
-        <a href="#">[NAMA MAHASISWA]</a>
+        <a href="#">{{ auth()->user()->name ?? '[NAMA MAHASISWA]' }}</a>
     </nav>
 </header>
 
@@ -383,21 +439,15 @@
     <h1 class="page-title">Verifikasi Pengajuan</h1>
 
     @if(session('success'))
-        <div class="message success">
-            {{ session('success') }}
-        </div>
+        <div class="message success">{{ session('success') }}</div>
     @endif
 
     @if(session('error'))
-        <div class="message error">
-            {{ session('error') }}
-        </div>
+        <div class="message error">{{ session('error') }}</div>
     @endif
 
     @if($errors->any())
-        <div class="message error">
-            {{ $errors->first() }}
-        </div>
+        <div class="message error">{{ $errors->first() }}</div>
     @endif
 
     <div class="content">
@@ -409,22 +459,31 @@
                 <p class="data-label">Data Mahasiswa</p>
 
                 <p class="student-name">
-                    {{ $pengajuan->mahasiswa->nama ?? 'Nama mahasiswa belum tersedia' }}
+                    {{ $pengajuan->mahasiswa->nama ?? '[NAMA MAHASISWA]' }}
                 </p>
 
                 <p class="student-info">
-                    NIM {{ $pengajuan->nim }}
+                    NIM {{ $pengajuan->nim ?? '[NIM]' }}
+                    &middot; {{ $pengajuan->mahasiswa->program_studi ?? '[Program Studi]' }},
+                    {{ $pengajuan->mahasiswa->fakultas ?? '[FAKULTAS]' }}
                 </p>
 
                 <p class="document-title">Dokumen</p>
 
                 <div class="document-row">
-                    <span>{{ $pengajuan->dokumen }}</span>
-                    <strong>Lihat</strong>
+                    <span>Pas foto.jpg</span>
+                    <a href="{{ !empty($pengajuan->pas_foto) ? asset('storage/' . $pengajuan->pas_foto) : '#' }}"
+                       target="_blank">Lihat</a>
+                </div>
+
+                <div class="document-row">
+                    <span>Dokumen pendukung.jpg</span>
+                    <a href="{{ !empty($pengajuan->dokumen_pendukung) ? asset('storage/' . $pengajuan->dokumen_pendukung) : '#' }}"
+                       target="_blank">Lihat</a>
                 </div>
             </section>
 
-            <section class="validation">
+            <section class="validation {{ $validasiLolos ? 'pass' : 'fail' }}">
                 <h4>Hasil validasi otomatis</h4>
 
                 <p>
@@ -445,29 +504,26 @@
                 @csrf
 
                 <label class="decision-option">
-                    <input type="radio" name="keputusan"
-                           value="Diterima" required>
+                    <input type="radio" name="keputusan" value="Diterima"
+                           {{ old('keputusan', 'Diterima') === 'Diterima' ? 'checked' : '' }} required>
                     Disetujui
                 </label>
 
                 <label class="decision-option">
-                    <input type="radio" name="keputusan"
-                           value="Diverifikasi">
+                    <input type="radio" name="keputusan" value="Diverifikasi"
+                           {{ old('keputusan') === 'Diverifikasi' ? 'checked' : '' }}>
                     Data tidak lengkap
                 </label>
 
                 <label class="decision-option">
-                    <input type="radio" name="keputusan"
-                           value="Ditolak">
+                    <input type="radio" name="keputusan" value="Ditolak"
+                           {{ old('keputusan') === 'Ditolak' ? 'checked' : '' }}>
                     Ditolak
                 </label>
 
-                <label class="note-label" for="catatan">
-                    Catatan untuk mahasiswa
-                </label>
+                <label class="note-label" for="catatan">Catatan untuk mahasiswa</label>
 
-                <textarea id="catatan" name="catatan"
-                    placeholder="Tuliskan catatan jika diperlukan..."></textarea>
+                <textarea id="catatan" name="catatan">{{ old('catatan') }}</textarea>
 
                 <button type="submit">Simpan Keputusan</button>
             </form>
