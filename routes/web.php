@@ -12,3 +12,7 @@ Route::get('/login', function () {
 });
 
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/status-pengajuan', function () {
+    return view('status-pengajuan');
+});
