@@ -16,9 +16,14 @@ class AuthController extends Controller
         $kataSandi = $request->input('kataSandi');
         $peran = $request->input('peran');
 
+        // Pilihan angkatan (2024 sampai 2026) berarti peran Mahasiswa
+        if (is_numeric($peran)) {
+            $peran = 'Mahasiswa';
+        }
+
         // Jika NIM atau kata sandi kosong, tampilkan pesan
         if (empty($nim) || empty($kataSandi)) {
-            return back()->with('error', 'Data wajib diisi');
+            return $this->loginGagal($request, 'Data wajib diisi');
         }
 
         // Cari akun berdasarkan NIM dan peran
@@ -35,18 +40,18 @@ class AuthController extends Controller
             $peranPengguna = $this->identifikasiPeran($dataAkun);
 
             if ($peranPengguna === 'Mahasiswa') {
-                return redirect('/dashboard-mahasiswa')->with('success', 'Berhasil masuk');
+                return $this->loginBerhasil($request, '/dashboard-mahasiswa', 'Berhasil masuk. Mengalihkan ke halaman pengajuan.');
             }
 
             if ($peranPengguna === 'AdminFakultas') {
-                return redirect('/dashboard-admin-fakultas')->with('success', 'Berhasil masuk');
+                return $this->loginBerhasil($request, '/dashboard-admin-fakultas', 'Berhasil masuk. Mengalihkan ke dashboard.');
             }
 
-            return redirect('/dashboard-admin-rektorat')->with('success', 'Berhasil masuk');
+            return $this->loginBerhasil($request, '/dashboard-admin-rektorat', 'Berhasil masuk. Mengalihkan ke dashboard.');
         }
 
         // Jika akun tidak ada atau kata sandi salah
-        return back()->with('error', 'NIM atau kata sandi salah');
+        return $this->loginGagal($request, 'NIM atau kata sandi salah');
     }
 
     // Membandingkan kata sandi input dengan hash di database
@@ -59,5 +64,22 @@ class AuthController extends Controller
     public function identifikasiPeran($dataAkun)
     {
         return $dataAkun->peran;
+    }
+
+    // Kembali ke form login dengan pesan berhasil, lalu diarahkan otomatis (UI-03)
+    private function loginBerhasil(Request $request, $tujuan, $pesan)
+    {
+        return redirect('/login')
+            ->withInput($request->only('peran', 'nim'))
+            ->with('success', $pesan)
+            ->with('arahkan', $tujuan);
+    }
+
+    // Kembali ke form login dengan pesan gagal, peran dan NIM tetap terisi (UI-02)
+    private function loginGagal(Request $request, $pesan)
+    {
+        return back()
+            ->withInput($request->only('peran', 'nim'))
+            ->with('error', $pesan);
     }
 }
