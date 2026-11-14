@@ -22,11 +22,11 @@ class PengajuanKTM extends Model
     ];
 
     public function mahasiswa()
-{
-    return $this->belongsTo(
-        Mahasiswa::class,
-        'idPengguna',
-        'idPengguna'
-    );
-}
+    {
+        return $this->belongsTo(
+            Mahasiswa::class,
+            'idPengguna',
+            'idPengguna'
+        );
+    }
 }
