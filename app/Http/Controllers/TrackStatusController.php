@@ -86,10 +86,19 @@ class TrackStatusController extends Controller
             'berhenti' => 'Tidak berlanjut',
         ];
 
+        // Sesuai desain UI-09: saat KTM siap diambil, teks di bawah batang dibuat persis seperti desain
+        $teksSiap = ['Selesai', 'Ditolak', 'Tidak berlanjut', 'Tidak berlanjut'];
+        $siap = $this->siapDiambil($status, $pengajuan);
+
         return array_map(
-            fn ($nama, $k) => ['nama' => $nama, 'kondisi' => $k, 'keterangan' => $keterangan[$k]],
+            fn ($nama, $k, $i) => [
+                'nama'       => $nama,
+                'kondisi'    => $k,
+                'keterangan' => $siap ? $teksSiap[$i] : $keterangan[$k],
+            ],
             self::TAHAP,
-            $kondisi
+            $kondisi,
+            array_keys($kondisi)
         );
     }
 }
