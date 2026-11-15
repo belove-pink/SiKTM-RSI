@@ -11,7 +11,8 @@
     body { margin: 0; font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif; background: #dce8f8; color: #13305a; min-height: 100vh; display: flex; flex-direction: column; }
 
     /* Navbar */
-    .nav { background: #13305a; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 56px; }
+    .nav { background: #13305a; color: #fff; padding: 0 24px; height: 68px; }
+    .nav-isi { max-width: 1100px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .nav .kiri { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
     .nav .kiri img { height: 28px; }
     .nav .kiri b { font-size: 17px; font-weight: 800; }
@@ -30,8 +31,9 @@
     .btn { display: block; margin-top: 18px; padding: 17px; background: #f2aa00; color: #000; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; }
 
     /* Footer */
-    footer { background: #13305a; color: #fff; padding: 40px 60px 48px; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
-    footer h2 { margin: 0 0 14px; font-size: 20px; font-weight: 800; line-height: 1.3; }
+    footer { background: #13305a; color: #fff; padding: 40px 24px 48px; }
+    .footer-isi { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    footer h2 { margin: 0 0 14px; font-size: 20px; font-weight: 600; line-height: 1.3; }
     footer p { margin: 0; max-width: 300px; font-size: 10px; line-height: 1.5; }
     footer .kolom { display: flex; gap: 48px; font-size: 10px; }
     footer .kolom h4 { margin: 0 0 8px; font-size: 10px; font-weight: 800; }
@@ -41,6 +43,7 @@
 <body>
   <!-- Navbar -->
   <header class='nav'>
+  <div class='nav-isi'>
     <div class='kiri'>
       <img src='{{ asset("images/logo-ub.png") }}' alt='Logo UB'>
       <b>Si<span>KTM</span></b>
@@ -50,9 +53,10 @@
       <a href='#' class='aktif'>Beranda</a>
       <a href='#'>Riwayat</a>
       <a href='#'>Bantuan</a>
-      <a href='#'>{{ $namaMahasiswa ?? 'NAMA MAHASISWA' }}</a>
+      <a href='#'>[NAMA MAHASISWA]</a>
     </nav>
-  </header>
+  </div>
+</header>
 
   <!-- Card pengajuan terkirim -->
   <main>
@@ -74,6 +78,7 @@
 
   <!-- Footer -->
   <footer>
+  <div class='footer-isi'>
     <div>
       <h2>KEMAHASISWAAN<br>UNIVERSITAS BRAWIJAYA</h2>
       <p>SiKTM adalah sistem informasi pengajuan dan pemantauan Kartu Tanda Mahasiswa Universitas Brawijaya. Layanan ini dikelola oleh Kemahasiswaan untuk memudahkan mahasiswa mengurus KTM secara cepat, jelas, dan transparan.</p>
@@ -92,6 +97,7 @@
         <a href='#'>Ketentuan Layanan</a>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
 </body>
 </html>
