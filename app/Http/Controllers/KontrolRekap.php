@@ -41,10 +41,13 @@ class KontrolRekap extends Controller
             );
         }
 
-        // Jika data tidak ditemukan, tampilkan pesan
+                // Jika data tidak ditemukan, tampilkan pesan
         if (empty($dataRekap['daftar'])) {
             return back()->with('error', 'Data rekap tidak ditemukan');
         }
+
+        // Daftar prodi untuk dropdown filter
+        $dataRekap['daftarProdi'] = DB::table('ProgramStudi')->where('idFakultas', $idFakultas)->get();
 
         return view('rekap-ktm', $dataRekap);
     }

@@ -30,6 +30,7 @@ class AuthController extends Controller
         if ($dataAkun && $this->verifikasiKataSandi($kataSandi, $dataAkun->kataSandi)) {
             // Simpan id pengguna ke sesi
             session(['idPengguna' => $dataAkun->idPengguna]);
+            session(['idFakultas' => $dataAkun->idFakultas]);
 
             // Tentukan dashboard sesuai peran
             $peranPengguna = $this->identifikasiPeran($dataAkun);
