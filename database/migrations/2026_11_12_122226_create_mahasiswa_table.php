@@ -6,22 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    // Membuat tabel Mahasiswa sesuai PDM
     public function up(): void
     {
-        Schema::create('mahasiswa', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('Mahasiswa', function (Blueprint $table) {
+            $table->unsignedInteger('idPengguna')->primary();
+            $table->integer('angkatan');
+            $table->unsignedInteger('idProdi');
+
+            $table->foreign('idPengguna')->references('idPengguna')->on('Pengguna');
+            $table->foreign('idProdi')->references('idProdi')->on('ProgramStudi');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+    // Menghapus tabel Mahasiswa
     public function down(): void
     {
-        Schema::dropIfExists('mahasiswa');
+        Schema::dropIfExists('Mahasiswa');
     }
 };
