@@ -15,7 +15,7 @@
     .nav-isi { max-width: 1100px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .nav .kiri { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
     .nav .kiri img { height: 28px; }
-    .nav .kiri b { font-size: 17px; font-weight: 800; }
+    .nav .kiri b { font-size: 18px; font-weight: 800; }
     .nav .kiri b span { color: #f2aa00; }
     .nav .kanan { display: flex; gap: 32px; font-size: 13px; font-weight: 500; }
     .nav .kanan a { color: #fff; text-decoration: none; padding: 4px 8px; }
