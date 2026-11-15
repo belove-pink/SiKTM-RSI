@@ -46,9 +46,7 @@ class AuthController extends Controller
         }
 
         // Jika akun tidak ada atau kata sandi salah
-            return back()
-        ->withInput($request->only('nim'))
-        ->with('error', 'NIM atau kata sandi salah. Silakan coba lagi.');
+        return back()->with('error', 'NIM atau kata sandi salah');
     }
 
     // Membandingkan kata sandi input dengan hash di database
