@@ -15,7 +15,7 @@
     .nav-isi { max-width: 1100px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
     .nav .kiri { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
     .nav .kiri img { height: 28px; }
-    .nav .kiri b { font-size: 17px; font-weight: 800; }
+    .nav .kiri b { font-size: 18px; font-weight: 800; }
     .nav .kiri b span { color: #f2aa00; }
     .nav .kanan { display: flex; gap: 32px; font-size: 13px; font-weight: 500; }
     .nav .kanan a { color: #fff; text-decoration: none; padding: 4px 8px; }
@@ -31,13 +31,22 @@
     .btn { display: block; margin-top: 18px; padding: 17px; background: #f2aa00; color: #000; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; }
 
     /* Footer */
-    footer { background: #13305a; color: #fff; padding: 40px 24px 48px; }
+/* Footer */
+    footer { background: #13305a; color: #fff; padding: 68px 24px 80px; }
+    .footer-isi { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    footer h2 { margin: 0 0 25px; font-size: 24px; font-weight: 600; line-height: 1.3; }
+    footer p { margin: 0; max-width: 350px; font-size: 12px; line-height: 1.6; font-weight: 400; }
+    footer .kolom { display: flex; gap: 110px; font-size: 12px; }
+    footer .kolom h4 { margin: 0 0 16px; font-size: 13px; font-weight: 700; }
+    footer .kolom a { display: block; margin-bottom: 12px; color: #fff; text-decoration: underline; font-weight: 500; }
+
+    /* footer { background: #13305a; color: #fff; padding: 40px 24px 48px; }
     .footer-isi { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
     footer h2 { margin: 0 0 14px; font-size: 20px; font-weight: 600; line-height: 1.3; }
     footer p { margin: 0; max-width: 300px; font-size: 10px; line-height: 1.5; }
     footer .kolom { display: flex; gap: 48px; font-size: 10px; }
     footer .kolom h4 { margin: 0 0 8px; font-size: 10px; font-weight: 800; }
-    footer .kolom a { display: block; margin-bottom: 6px; color: #fff; text-decoration: underline; }
+    footer .kolom a { display: block; margin-bottom: 6px; color: #fff; text-decoration: underline; } */
   </style>
 </head>
 <body>
