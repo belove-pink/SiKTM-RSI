@@ -16,14 +16,19 @@ class AuthController extends Controller
         $kataSandi = $request->input('kataSandi');
         $peran = $request->input('peran');
 
-        // Pilihan angkatan (2024 sampai 2026) berarti peran Mahasiswa
-        if (is_numeric($peran)) {
-            $peran = 'Mahasiswa';
-        }
-
         // Jika NIM atau kata sandi kosong, tampilkan pesan
         if (empty($nim) || empty($kataSandi)) {
             return $this->loginGagal($request, 'Data wajib diisi');
+        }
+
+        // Pilihan angkatan (2024 sampai 2026) berarti peran Mahasiswa
+        if (is_numeric($peran)) {
+            // Dua angka pertama NIM harus sama dengan dua angka terakhir angkatan
+            if (!$this->nimSesuaiAngkatan($nim, $peran)) {
+                return $this->loginGagal($request, 'NIM tidak sesuai dengan angkatan yang dipilih');
+            }
+
+            $peran = 'Mahasiswa';
         }
 
         // Cari akun berdasarkan NIM dan peran
@@ -64,6 +69,12 @@ class AuthController extends Controller
     public function identifikasiPeran($dataAkun)
     {
         return $dataAkun->peran;
+    }
+
+    // Memeriksa dua angka pertama NIM sama dengan dua angka terakhir angkatan (misal 2025 dan NIM 25...)
+    private function nimSesuaiAngkatan($nim, $angkatan)
+    {
+        return substr($nim, 0, 2) === substr($angkatan, -2);
     }
 
     // Kembali ke form login dengan pesan berhasil, lalu diarahkan otomatis (UI-03)

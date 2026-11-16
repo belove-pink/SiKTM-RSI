@@ -58,6 +58,11 @@
     select, input { display: block; width: 100%; height: 46px; padding: 0 16px; border: 1px solid var(--navy); border-radius: 12px; font-family: inherit; font-size: 15px; color: #111; background: #fff; }
     input::placeholder { color: #8a8a8a; }
     select:focus, input:focus { outline: 2px solid var(--kuning); outline-offset: 1px; }
+    /* Kolom kata sandi dengan tombol mata */
+    .sandi { position: relative; }
+    .sandi input { padding-right: 48px; }
+    .sandi .toggle-sandi { position: absolute; top: 0; right: 0; width: 46px; height: 46px; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; border: none; border-radius: 0 12px 12px 0; background: transparent; color: #5b6670; cursor: pointer; }
+    .sandi .toggle-sandi:hover { color: var(--navy); }
     .valid input { border-color: #2d8b70; }
     .invalid input { border-color: #d93025; }
     button { display: block; width: 100%; height: 46px; border-radius: 12px; font-family: inherit; font-size: 15px; font-weight: 700; color: #111; cursor: pointer; }
@@ -118,15 +123,21 @@
             <option value="AdminRektorat" {{ old('peran') == 'AdminRektorat' ? 'selected' : '' }}>Admin Rektorat</option>
           </select>
 
-          <!-- Field identitas akun (disamarkan saat login berhasil) -->
+          <!-- Field identitas akun -->
           <label for="nim" class="jarak">NIM/Email</label>
-          <input type="text" id="nim" name="nim" placeholder="NIM"
-                 value="{{ session('success') ? \Illuminate\Support\Str::mask(old('nim'), '*', 3) : old('nim') }}">
+          <input type="text" id="nim" name="nim" placeholder="NIM" value="{{ old('nim') }}">
 
-          <!-- Field kata sandi -->
+          <!-- Field kata sandi dengan tombol lihat/sembunyikan -->
           <label for="kataSandi" class="jarak">Kata Sandi</label>
-          <input type="password" id="kataSandi" name="kataSandi" placeholder="Kata Sandi"
-                 value="{{ session('success') ? '********' : '' }}">
+          <div class="sandi">
+            <input type="password" id="kataSandi" name="kataSandi" placeholder="Kata Sandi"
+                   value="{{ session('success') ? '********' : '' }}">
+            <button type="button" class="toggle-sandi" id="toggleSandi" aria-label="Lihat kata sandi">
+              <svg id="ikonMata" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
 
           <button type="submit" class="masuk">Masuk</button>
         </form>
@@ -134,5 +145,21 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // Tombol lihat/sembunyikan kata sandi
+    const kolomSandi = document.getElementById('kataSandi');
+    const tombolSandi = document.getElementById('toggleSandi');
+    const ikonMata = document.getElementById('ikonMata');
+    const mataBuka = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+    const mataTutup = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+
+    tombolSandi.addEventListener('click', function () {
+      const sedangTersembunyi = kolomSandi.type === 'password';
+      kolomSandi.type = sedangTersembunyi ? 'text' : 'password';
+      ikonMata.innerHTML = sedangTersembunyi ? mataTutup : mataBuka;
+      tombolSandi.setAttribute('aria-label', sedangTersembunyi ? 'Sembunyikan kata sandi' : 'Lihat kata sandi');
+    });
+  </script>
 </body>
 </html>
