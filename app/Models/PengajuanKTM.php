@@ -45,3 +45,4 @@ class PengajuanKTM extends Model
         return $this->status;
     }
 }
+
