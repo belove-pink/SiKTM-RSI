@@ -11,15 +11,16 @@
     body { margin: 0; font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif; background: #dce8f8; color: #13305a; min-height: 100vh; display: flex; flex-direction: column; }
 
     /* Navbar */
-    .nav { background: #13305a; color: #fff; padding: 0 24px; height: 68px; }
-    .nav-isi { max-width: 1100px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-    .nav .kiri { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
-    .nav .kiri img { height: 28px; }
-    .nav .kiri b { font-size: 17px; font-weight: 800; }
+    .nav { height: 78px; padding: 0 max(2.5%, calc((100% - 1200px) / 2 + 37px)); background: #13305a; color: #fff; }
+    .nav-isi { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav .kiri { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; letter-spacing: .2px; }
+    .nav .kiri img { width: 38px; height: 38px; object-fit: contain; }
+    .nav .kiri b { font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif; font-size: 23px; font-weight: 800; letter-spacing: -.4px; }
     .nav .kiri b span { color: #f2aa00; }
-    .nav .kanan { display: flex; gap: 32px; font-size: 13px; font-weight: 500; }
-    .nav .kanan a { color: #fff; text-decoration: none; padding: 4px 8px; }
-    .nav .kanan a.aktif { border-bottom: 2px solid #f2aa00; }
+    .nav .kiri > span { font-weight: 500; }
+    .nav .kanan { display: flex; align-items: stretch; gap: 45px; height: 100%; }
+    .nav .kanan a { display: flex; align-items: center; padding: 3px 0 0; color: #fff; text-decoration: none; font-size: 15px; font-weight: 500; border-bottom: 3px solid transparent; transition: .2s; }
+    .nav .kanan a:hover { border-bottom-color: #f2aa00; }
 
     /* Konten */
     main { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 32px 16px 56px; }
@@ -31,14 +32,27 @@
     .btn { display: block; margin-top: 18px; padding: 17px; background: #f2aa00; color: #000; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; }
 
     /* Footer */
-/* Footer */
-    footer { background: #13305a; color: #fff; padding: 68px 24px 80px; }
+    footer { padding: 60px max(7.2%, calc((100% - 1200px) / 2 + 87px)) 68px; background: #13305a; color: #fff; }
+    .footer-isi { display: grid; grid-template-columns: 1fr 180px 120px; gap: 40px; align-items: start; }
+    footer h2 { margin: 0 0 22px; font-size: 24px; line-height: 1.3; font-weight: 600; }
+    footer p { max-width: 420px; margin: 0; color: #dce8f8; font-size: 12px; line-height: 1.7; font-weight: 500; }
+    footer .kolom { display: contents; }
+    footer .kolom h4 { margin: 6px 0 14px; font-size: 12px; font-weight: 700; letter-spacing: .4px; }
+    footer .kolom a { display: block; margin-bottom: 9px; color: #dce8f8; font-size: 12px; text-decoration: underline; font-weight: 500; }
+
+    @media (max-width: 900px) {
+  footer { padding: 40px 7%; }
+  .footer-isi { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .footer-isi > div:first-child { grid-column: 1 / -1; }
+}
+
+    /* footer { background: #13305a; color: #fff; padding: 68px 24px 80px; }
     .footer-isi { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
     footer h2 { margin: 0 0 25px; font-size: 24px; font-weight: 600; line-height: 1.3; }
     footer p { margin: 0; max-width: 350px; font-size: 12px; line-height: 1.6; font-weight: 400; }
     footer .kolom { display: flex; gap: 110px; font-size: 12px; }
     footer .kolom h4 { margin: 0 0 16px; font-size: 13px; font-weight: 700; }
-    footer .kolom a { display: block; margin-bottom: 12px; color: #fff; text-decoration: underline; font-weight: 500; }
+    footer .kolom a { display: block; margin-bottom: 12px; color: #fff; text-decoration: underline; font-weight: 500; } */
 
     /* footer { background: #13305a; color: #fff; padding: 40px 24px 48px; }
     .footer-isi { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
