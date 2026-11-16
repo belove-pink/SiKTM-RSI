@@ -11,11 +11,11 @@
     body { margin: 0; font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif; background: #dce8f8; color: #13305a; min-height: 100vh; display: flex; flex-direction: column; }
 
     /* Navbar */
-    .nav { height: 78px; padding: 0 max(2.5%, calc((100% - 1200px) / 2 + 37px)); background: #13305a; color: #fff; }
-    .nav-isi { height: 100%; display: flex; align-items: center; justify-content: space-between; }
-    .nav .kiri { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; letter-spacing: .2px; }
-    .nav .kiri img { width: 38px; height: 38px; object-fit: contain; }
-    .nav .kiri b { font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif; font-size: 23px; font-weight: 800; letter-spacing: -.4px; }
+    .nav { background: #13305a; color: #fff; padding: 0 24px; height: 68px; }
+    .nav-isi { max-width: 1100px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .nav .kiri { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
+    .nav .kiri img { height: 28px; }
+    .nav .kiri b { font-size: 18px; font-weight: 800; }
     .nav .kiri b span { color: #f2aa00; }
     .nav .kiri > span { font-weight: 500; }
     .nav .kanan { display: flex; align-items: stretch; gap: 45px; height: 100%; }

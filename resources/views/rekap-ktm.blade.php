@@ -1,343 +1,198 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang='id'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rekapitulasi KTM</title>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Rekapitulasi KTM - SiKTM</title>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link href='https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <style>
+    * { box-sizing: border-box; }
+    body { zoom: 0.85; margin: 0; font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif; background: #dce8f8; color: #13305a; min-height: 100vh; display: flex; flex-direction: column; }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+    /* Navbar */
+    .nav { height: 78px; padding: 0 max(2.5%, calc((100% - 1200px) / 2 + 37px)); background: #13305a; color: #fff; }
+    .nav-isi { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav .kiri { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; letter-spacing: .2px; }
+    .nav .kiri img { width: 38px; height: 38px; object-fit: contain; }
+    .nav .kiri b { font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif; font-size: 23px; font-weight: 800; letter-spacing: -.4px; }
+    .nav .kiri b span { color: #f2aa00; }
+    .nav .kiri > span { font-weight: 500; }
+    .nav .kanan { display: flex; align-items: stretch; gap: 45px; height: 100%; }
+    .nav .kanan a { display: flex; align-items: center; padding: 3px 0 0; color: #fff; text-decoration: none; font-size: 15px; font-weight: 500; border-bottom: 3px solid transparent; transition: .2s; }
+    .nav .kanan a:hover { border-bottom-color: #f2aa00; }
 
-        body {
-            background: #f5f6fa;
-            color: #263445;
-            padding: 30px;
-        }
+    /* .nav { background: #13305a; color: #fff; padding: 0 24px; height: 72px; }
+    .nav-isi { max-width: 1100px; height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+    .nav .kiri { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
+    .nav .kiri img { height: 35px; }
+    .nav .kiri b { font-size: 22px; font-weight: 800; }
+    .nav .kiri b span { color: #f2aa00; }
+    .nav .kanan { display: flex; gap: 32px; font-size: 15px; font-weight: 500; }
+    .nav .kanan a { color: #fff; text-decoration: none; padding: 4px 8px; }
+    .nav .kanan a.aktif { border-bottom: 2px solid #f2aa00; } */
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-        }
+    /* Konten */
+    main { flex: 1; width: 100%; max-width: 990px; margin: 0 auto; padding: 48px 24px 72px; }
+    h1 { margin: 0 0 14px; font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif; font-size: 45px; font-weight: 800; }
+    .petunjuk { margin: 0 0 14px; font-size: 16px; font-weight: 500; color: #000; }
 
-        h1 {
-            font-size: 26px;
-            margin-bottom: 8px;
-        }
+    /* Form cari dan filter */
+    .cari { display: flex; gap: 12px; max-width: 760px; margin-bottom: 14px; }
+    .cari input { flex: 1; height: 38px; padding: 0 16px; border: 1px solid #13305a; border-radius: 19px; background: #fff; font-family: inherit; font-size: 15px; }
+    .cari button { height: 38px; padding: 0 28px; border: none; border-radius: 19px; background: #f2aa00; color: #13305a; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .filter { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .filter select { height: 36px; min-width: 170px; padding: 0 14px; border: 1px solid #13305a; border-radius: 18px; background: #fff; font-family: inherit; font-size: 14px; color: #13305a; }
+    .error { max-width: 760px; margin-bottom: 14px; padding: 10px 14px; background: #fbdcdc; color: #a12a2a; border-radius: 10px; font-size: 14px; font-weight: 600; }
 
-        .subtitle {
-            color: #718096;
-            margin-bottom: 28px;
-        }
+    /* Kartu ringkasan */
+    .kartu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 40px; }
+    .angka { min-height: 170px; padding: 28px 28px 26px; border: 1px solid #13305a; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+    .angka strong { font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif; font-size: 45px; font-weight: 800; line-height: 1; }
+    .angka span { font-size: 19px; font-weight: 800; }
+    .k-belum { background: #fff; }
+    .k-proses { background: #edb93c; }
+    .k-sudah { background: #d4efe3; }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 28px;
-        }
+    /* Tabel */
+    .tabel { background: #fff; border-radius: 28px; padding: 22px 28px 30px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 16px; }
+    th { padding: 14px 12px 16px; text-align: left; font-weight: 600; border-bottom: 1px solid #dce8f8; }
+    td { padding: 22px 12px; font-weight: 500; border-bottom: 1px solid #dce8f8; }
+    .aksi { color: #13305a; font-weight: 600; text-decoration: none; }
+    
+    /* Footer */
+    footer { padding: 60px max(7.2%, calc((100% - 1200px) / 2 + 87px)) 68px; background: #13305a; color: #fff; }
+    .footer-isi { display: grid; grid-template-columns: 1fr 180px 120px; gap: 40px; align-items: start; }
+    footer h2 { margin: 0 0 22px; font-size: 24px; line-height: 1.3; font-weight: 600; }
+    footer p { max-width: 420px; margin: 0; color: #dce8f8; font-size: 12px; line-height: 1.7; font-weight: 500; }
+    footer .kolom { display: contents; }
+    footer .kolom h4 { margin: 6px 0 14px; font-size: 12px; font-weight: 700; letter-spacing: .4px; }
+    footer .kolom a { display: block; margin-bottom: 9px; color: #dce8f8; font-size: 12px; text-decoration: underline; font-weight: 500; }
 
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
-        }
+    @media (max-width: 900px) {
+    footer { padding: 40px 7%; }
+    .footer-isi { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .footer-isi > div:first-child { grid-column: 1 / -1; }
+  }
 
-        .card p {
-            color: #718096;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-
-        .card h2 {
-            font-size: 28px;
-        }
-
-        .filter, .table-container {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            margin-bottom: 22px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.05);
-        }
-
-        .filter h3, .table-container h3 {
-            margin-bottom: 18px;
-        }
-
-        .filter form {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            align-items: end;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 11px;
-            border: 1px solid #dce1e8;
-            border-radius: 7px;
-            background: white;
-        }
-
-        button, .reset {
-            display: inline-block;
-            padding: 11px 18px;
-            border: none;
-            border-radius: 7px;
-            background: #24476b;
-            color: white;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-        }
-
-        .reset {
-            background: #e8edf3;
-            color: #263445;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #edf0f4;
-            font-size: 14px;
-        }
-
-        th {
-            background: #f7f9fc;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            background: #edf1f5;
-        }
-
-        .progress {
-            color: #946200;
-            background: #fff2cc;
-        }
-
-        .success {
-            color: #18794e;
-            background: #dff5e9;
-        }
-
-        .empty {
-            text-align: center;
-            color: #718096;
-            padding: 25px;
-        }
-
-        .percentage {
-            margin-top: 12px;
-            font-size: 13px;
-            color: #18794e;
-        }
-
-        .error {
-            background: #fde8e8;
-            color: #b42318;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 18px;
-        }
-
-        @media (max-width: 800px) {
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .filter form {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .table-container {
-                overflow-x: auto;
-            }
-        }
-
-        @media (max-width: 500px) {
-            body {
-                padding: 15px;
-            }
-
-            .cards, .filter form {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    /* footer { background: #13305a; color: #fff; padding: 72px 24px 84px; }
+    .footer-isi { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    footer h2 { margin: 0 0 25px; font-size: 24px; font-weight: 600; line-height: 1.3; }
+    footer p { margin: 0; max-width: 350px; font-size: 12px; line-height: 1.6; font-weight: 400; }
+    footer .kolom { display: flex; gap: 110px; font-size: 12px; }
+    footer .kolom h4 { margin: 0 0 16px; font-size: 13px; font-weight: 700; }
+    footer .kolom a { display: block; margin-bottom: 12px; color: #fff; text-decoration: underline; font-weight: 500; } */
+    
+  </style>
 </head>
-
 <body>
-<div class="container">
+  <!-- Navbar -->
+  <header class='nav'>
+    <div class='nav-isi'>
+      <div class='kiri'>
+        <img src='{{ asset("images/logo-ub.png") }}' alt='Logo UB'>
+        <b>Si<span>KTM</span></b>
+        <span>UNIVERSITAS BRAWIJAYA</span>
+      </div>
+      <nav class='kanan'>
+        <a href='#' class='aktif'>Beranda</a>
+        <a href='#'>Riwayat</a>
+        <a href='#'>Bantuan</a>
+        <a href='#'>{{ $namaAdmin ?? 'NAMA ADMIN' }}</a>
+      </nav>
+    </div>
+  </header>
 
+  <main>
     <h1>Rekapitulasi KTM</h1>
-    <p class="subtitle">Monitoring pengajuan dan kepemilikan KTM mahasiswa</p>
+    <p class='petunjuk'>Mohon untuk memasukkan NIM yang sesuai</p>
 
-    @if(session('error'))
-        <div class="error">{{ session('error') }}</div>
+    @if (session('error'))
+      <div class='error'>{{ session('error') }}</div>
     @endif
 
-    <!-- Kartu Ringkasan -->
-    <div class="cards">
-        <div class="card">
-            <p>Total Mahasiswa</p>
-            <h2>{{ $total }}</h2>
-        </div>
+    <!-- Pencarian NIM dan filter dalam satu form -->
+    <form method='GET' action='/rekap-ktm'>
+      <div class='cari'>
+        <input type='text' name='kataKunci' placeholder='NIM' value='{{ request("kataKunci") }}'>
+        <button type='submit'>Cek</button>
+      </div>
+      <div class='filter'>
+        <select name='prodi' onchange='this.form.submit()'>
+          <option value=''>Semua Prodi</option>
+          @foreach (($daftarProdi ?? []) as $p)
+            <option value='{{ $p->idProdi }}' {{ request('prodi') == $p->idProdi ? 'selected' : '' }}>{{ $p->namaProdi }}</option>
+          @endforeach
+        </select>
+        <select name='angkatan' onchange='this.form.submit()'>
+          <option value=''>Semua Angkatan</option>
+          @foreach ([2026, 2025, 2024, 2023] as $a)
+            <option value='{{ $a }}' {{ request('angkatan') == $a ? 'selected' : '' }}>{{ $a }}</option>
+          @endforeach
+        </select>
+        <select name='status' onchange='this.form.submit()'>
+          <option value=''>Semua Status</option>
+          @foreach (['Belum Mengajukan', 'Sedang Diproses', 'Sudah Memiliki KTM'] as $s)
+            <option value='{{ $s }}' {{ request('status') == $s ? 'selected' : '' }}>{{ $s }}</option>
+          @endforeach
+        </select>
+      </div>
+    </form>
 
-        <div class="card">
-            <p>Belum Mengajukan</p>
-            <h2>{{ $belum }}</h2>
-        </div>
-
-        <div class="card">
-            <p>Sedang Diproses</p>
-            <h2>{{ $proses }}</h2>
-        </div>
-
-        <div class="card">
-            <p>Sudah Memiliki KTM</p>
-            <h2>{{ $sudah }}</h2>
-            <div class="percentage">
-                {{ $persentase }}% dari total mahasiswa
-            </div>
-        </div>
+    <!-- Tiga kartu ringkasan -->
+    <div class='kartu'>
+      <div class='angka k-belum'><strong>{{ $belum ?? 0 }}</strong><span>Belum Mengajukan</span></div>
+      <div class='angka k-proses'><strong>{{ $proses ?? 0 }}</strong><span>Sedang Diproses</span></div>
+      <div class='angka k-sudah'><strong>{{ $sudah ?? 0 }}</strong><span>Sudah Memiliki KTM</span></div>
     </div>
 
-    <!-- Filter dan Pencarian -->
-    <div class="filter">
-        <h3>Filter Data Mahasiswa</h3>
-
-        <form action="{{ route('rekap-ktm') }}" method="GET">
-            <div>
-                <label for="kataKunci">Cari NIM</label>
-                <input
-                    type="text"
-                    id="kataKunci"
-                    name="kataKunci"
-                    placeholder="Masukkan NIM"
-                    value="{{ request('kataKunci') }}"
-                >
-            </div>
-
-            <div>
-                <label for="prodi">Program Studi</label>
-                <input
-                    type="text"
-                    id="prodi"
-                    name="prodi"
-                    placeholder="ID Program Studi"
-                    value="{{ request('prodi') }}"
-                >
-            </div>
-
-            <div>
-                <label for="angkatan">Angkatan</label>
-                <input
-                    type="number"
-                    id="angkatan"
-                    name="angkatan"
-                    placeholder="Contoh: 2025"
-                    value="{{ request('angkatan') }}"
-                >
-            </div>
-
-            <div>
-                <label for="status">Status KTM</label>
-                <select name="status" id="status">
-                    <option value="">Semua Status</option>
-                    <option value="Belum Mengajukan"
-                        {{ request('status') == 'Belum Mengajukan' ? 'selected' : '' }}>
-                        Belum Mengajukan
-                    </option>
-                    <option value="Sedang Diproses"
-                        {{ request('status') == 'Sedang Diproses' ? 'selected' : '' }}>
-                        Sedang Diproses
-                    </option>
-                    <option value="Sudah Memiliki KTM"
-                        {{ request('status') == 'Sudah Memiliki KTM' ? 'selected' : '' }}>
-                        Sudah Memiliki KTM
-                    </option>
-                </select>
-            </div>
-
-            <div>
-                <button type="submit">Terapkan Filter</button>
-                <a href="{{ route('rekap-ktm') }}" class="reset">Reset</a>
-            </div>
-        </form>
+    <!-- Tabel rekap mahasiswa -->
+    <div class='tabel'>
+      <table>
+        <tr><th>NIM</th><th>Prodi</th><th>Status</th><th>Aksi</th></tr>
+        @foreach (($daftar ?? []) as $baris)
+          <tr>
+            <td>{{ $baris['nim'] }}</td>
+            <td>{{ $baris['prodi'] }}</td>
+            <td>{{ $baris['status'] }}</td>
+            <td>
+              @if ($baris['status'] === 'Sudah Memiliki KTM')
+                <a href='#' class='aksi'>Lihat</a>
+              @elseif ($baris['status'] === 'Sedang Diproses')
+                <a href='#' class='aksi'>Periksa</a>
+              @else
+                -
+              @endif
+            </td>
+          </tr>
+        @endforeach
+      </table>
     </div>
+  </main>
 
-    <!-- Tabel Rekapitulasi -->
-    <div class="table-container">
-        <h3>Data Rekapitulasi Mahasiswa</h3>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>NIM</th>
-                    <th>Program Studi</th>
-                    <th>Status KTM</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @forelse($daftar as $index => $mahasiswa)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $mahasiswa['nim'] }}</td>
-                        <td>{{ $mahasiswa['prodi'] }}</td>
-                        <td>
-                            @if($mahasiswa['status'] == 'Sudah Memiliki KTM')
-                                <span class="status success">
-                                    {{ $mahasiswa['status'] }}
-                                </span>
-                            @elseif($mahasiswa['status'] == 'Sedang Diproses')
-                                <span class="status progress">
-                                    {{ $mahasiswa['status'] }}
-                                </span>
-                            @else
-                                <span class="status">
-                                    {{ $mahasiswa['status'] }}
-                                </span>
-                            @endif
-                        </td>
-                        <td>-</td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="empty">
-                            Belum ada data mahasiswa.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+  <!-- Footer -->
+  <footer>
+    <div class='footer-isi'>
+      <div>
+        <h2>KEMAHASISWAAN<br>UNIVERSITAS BRAWIJAYA</h2>
+        <p>SiKTM adalah sistem informasi pengajuan dan pemantauan Kartu Tanda Mahasiswa Universitas Brawijaya. Layanan ini dikelola oleh Kemahasiswaan untuk memudahkan mahasiswa mengurus KTM secara cepat, jelas, dan transparan.</p>
+      </div>
+      <div class='kolom'>
+        <div>
+          <h4>NAVIGASI</h4>
+          <a href='#'>Beranda</a>
+          <a href='#'>Riwayat</a>
+          <a href='#'>Bantuan</a>
+          <a href='#'>Kontak Kemahasiswaan</a>
+        </div>
+        <div>
+          <h4>LEGAL</h4>
+          <a href='#'>Kebijakan Privasi</a>
+          <a href='#'>Ketentuan Layanan</a>
+        </div>
+      </div>
     </div>
-
-</div>
+  </footer>
 </body>
 </html>

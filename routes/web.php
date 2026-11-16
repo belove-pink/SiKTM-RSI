@@ -117,3 +117,25 @@ Route::get('/rekap-ktm', [
     KontrolRekap::class,
     'tampilkanRekapitulasi'
 ])->name('rekap-ktm');
+Route::get('/beranda-mahasiswa', function () {
+    return view('beranda-mahasiswa');
+});
+
+// Preview tampilan UI-12 tanpa database
+Route::get('/preview-rekap-ktm', function () {
+    return view('rekap-ktm', [
+        'namaAdmin' => 'Admin Fakultas',
+        'belum' => 40, 'proses' => 25, 'sudah' => 135,
+        'daftarProdi' => collect([
+            (object) ['idProdi' => 1, 'namaProdi' => 'Sistem Informasi'],
+            (object) ['idProdi' => 2, 'namaProdi' => 'Teknik Informatika'],
+        ]),
+        'daftar' => [
+            ['nim' => '255150400111000', 'prodi' => 'Sistem Informasi', 'status' => 'Sudah Memiliki KTM'],
+            ['nim' => '255150400111001', 'prodi' => 'Teknik Informatika', 'status' => 'Sedang Diproses'],
+            ['nim' => '255150400111002', 'prodi' => 'Sistem Informasi', 'status' => 'Belum Mengajukan'],
+            ['nim' => '255150400111003', 'prodi' => 'Teknik Komputer', 'status' => 'Sudah Memiliki KTM'],
+            ['nim' => '255150400111004', 'prodi' => 'Sistem Informasi', 'status' => 'Sedang Diproses'],
+        ],
+    ]);
+});
