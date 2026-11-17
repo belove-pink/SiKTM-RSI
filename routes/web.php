@@ -2,10 +2,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ValidasiPengajuanController;
-use App\Http\Controllers\TrackStatusController;
-use App\Http\Controllers\KontrolRekap;
+use App\Http\Controllers\BerandaMahasiswaController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -117,9 +114,9 @@ Route::get('/rekap-ktm', [
     KontrolRekap::class,
     'tampilkanRekapitulasi'
 ])->name('rekap-ktm');
-Route::get('/beranda-mahasiswa', function () {
-    return view('beranda-mahasiswa');
-});
+// Route::get('/beranda-mahasiswa', function () {
+//     return view('beranda-mahasiswa');
+// });
 
 // Preview tampilan UI-12 tanpa database
 Route::get('/preview-rekap-ktm', function () {
@@ -139,3 +136,8 @@ Route::get('/preview-rekap-ktm', function () {
         ],
     ]);
 });
+// Beranda mahasiswa
+Route::get('/beranda-mahasiswa', [
+    BerandaMahasiswaController::class,
+    'index'
+])->name('beranda.mahasiswa');

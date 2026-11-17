@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -12,7 +13,7 @@
     <style>
         :root {
             --heading-font: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif;
-            --frame: 1200px; /* makin kecil = konten makin sempit */
+            --frame: 1200px;
         }
 
         * {
@@ -31,17 +32,17 @@
             color: #13305a;
         }
 
-        /* Bricolage Grotesque untuk logo & judul */
         .brand-name,
         .greeting,
         .card-heading h2,
         .apply-card h2 {
             font-family: var(--heading-font);
             font-optical-sizing: none;
-            font-variation-settings: 'opsz' 96; /* bentuk huruf display, seperti di desain */
+            font-variation-settings: 'opsz' 96;
         }
 
         /* ================= NAVBAR ================= */
+
         .navbar {
             height: 66px;
             padding: 0 max(2.5%, calc((100% - var(--frame)) / 2 + 37px));
@@ -107,6 +108,7 @@
         }
 
         /* ================= KONTEN ================= */
+
         .main-content {
             min-height: 624px;
             padding: 52px max(6%, calc((100% - var(--frame)) / 2 + 72px)) 98px;
@@ -135,6 +137,7 @@
         }
 
         /* ---- Kartu pengajuan ---- */
+
         .application-card {
             padding: 30px 26px;
         }
@@ -214,6 +217,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 14px;
+            margin-bottom: 15px;
         }
 
         .history-item p {
@@ -223,6 +227,7 @@
         }
 
         /* ---- Kartu ajukan KTM ---- */
+
         .apply-card {
             padding: 35px 34px;
             display: flex;
@@ -263,6 +268,7 @@
         }
 
         /* ================= FOOTER ================= */
+
         .footer {
             padding: 60px max(7.2%, calc((100% - var(--frame)) / 2 + 87px)) 68px;
             background: #13305a;
@@ -304,6 +310,7 @@
         }
 
         /* ================= RESPONSIVE ================= */
+
         @media (max-width: 900px) {
             .navbar {
                 height: auto;
@@ -386,7 +393,7 @@
             <a href="#beranda" class="active">Beranda</a>
             <a href="#riwayat">Riwayat</a>
             <a href="#bantuan">Bantuan</a>
-            <a href="#profil">{{ auth()->user()->name ?? '[NAMA MAHASISWA]' }}</a>
+            <a href="#profil">{{ $mahasiswa->nama }}</a>
         </nav>
     </header>
 
@@ -394,7 +401,7 @@
     <main class="main-content" id="beranda">
 
         <h1 class="greeting">
-            Halo, {{ auth()->user()->name ?? '[NAMA]' }}. Ada yang bisa kami bantu?
+            Halo, {{ $mahasiswa->nama }}. Ada yang bisa kami bantu?
         </h1>
 
         <div class="content-grid">
@@ -402,32 +409,99 @@
             <!-- KARTU PENGAJUAN -->
             <section class="card application-card">
 
-                <div class="card-heading">
-                    <h2>Pengajuan KTM baru</h2>
-                    <span class="status">Sedang diverifikasi</span>
-                </div>
+                @php
+                    $statusLabel = [
+                        'Diajukan' => 'Menunggu verifikasi',
+                        'Diverifikasi' => 'Sedang diverifikasi',
+                        'Diterima' => 'Diterima',
+                        'Ditolak' => 'Ditolak',
+                    ];
 
-                <p class="date">Diajukan 12 Okt 2026</p>
+                    $deskripsiStatus = [
+                        'Diajukan' => 'Pengajuanmu sudah diterima dan sedang menunggu pemeriksaan admin.',
+                        'Diverifikasi' => 'Admin sedang memeriksa dokumenmu. Kamu akan mendapatkan informasi saat status berubah.',
+                        'Diterima' => 'Pengajuan KTM-mu sudah diterima.',
+                        'Ditolak' => 'Pengajuan KTM-mu ditolak. Silakan periksa informasi dari admin.',
+                    ];
+                @endphp
 
-                <p class="description">
-                    Admin sedang memeriksa dokumenmu. Kamu akan
-                    dapat notifikasi saat statusnya berubah.
-                </p>
+                @if ($pengajuanTerbaru)
 
-                <a href="#" class="detail-link">
-                    Lihat status lengkap <span>&rarr;</span>
-                </a>
+                    <div class="card-heading">
+                        <h2>Pengajuan KTM {{ $pengajuanTerbaru->jalur }}</h2>
 
-                <hr class="card-divider">
-
-                <div id="riwayat">
-                    <p class="history-title">RIWAYAT</p>
-
-                    <div class="history-item">
-                        <p>KTM baru</p>
-                        <span class="status">Sedang diverifikasi</span>
+                        <span class="status">
+                            {{ $statusLabel[$pengajuanTerbaru->status] ?? $pengajuanTerbaru->status }}
+                        </span>
                     </div>
-                </div>
+
+                    <p class="date">
+                        Diajukan
+                        {{ \Carbon\Carbon::parse($pengajuanTerbaru->tanggalPengajuan)->locale('id')->translatedFormat('d M Y') }}
+                    </p>
+
+                    <p class="description">
+                        {{ $deskripsiStatus[$pengajuanTerbaru->status] ?? 'Pengajuan sedang diproses.' }}
+                    </p>
+
+                    <a href="#" class="detail-link">
+                        Lihat status lengkap <span>&rarr;</span>
+                    </a>
+
+                    <hr class="card-divider">
+
+                    <!-- RIWAYAT PENGAJUAN -->
+                    <div id="riwayat">
+                        <p class="history-title">RIWAYAT</p>
+
+                        @forelse ($riwayatPengajuan as $riwayat)
+
+                            <div class="history-item">
+                                <p>
+                                    KTM {{ $riwayat->jalur }}
+                                    ·
+                                    {{ \Carbon\Carbon::parse($riwayat->tanggalPengajuan)->locale('id')->translatedFormat('d M Y') }}
+                                </p>
+
+                                <span class="status">
+                                    {{ $statusLabel[$riwayat->status] ?? $riwayat->status }}
+                                </span>
+                            </div>
+
+                        @empty
+
+                            <p class="description">
+                                Belum ada riwayat pengajuan lainnya.
+                            </p>
+
+                        @endforelse
+                    </div>
+
+                @else
+
+                    <!-- KONDISI BELUM ADA PENGAJUAN -->
+                    <div class="card-heading">
+                        <h2>Belum ada pengajuan KTM</h2>
+                    </div>
+
+                    <p class="date">Belum ada pengajuan</p>
+
+                    <p class="description">
+                        Kamu belum memiliki pengajuan KTM.
+                        Silakan ajukan KTM baru melalui layanan SiKTM.
+                    </p>
+
+                    <hr class="card-divider">
+
+                    <div id="riwayat">
+                        <p class="history-title">RIWAYAT</p>
+
+                        <p class="description">
+                            Belum ada riwayat pengajuan KTM.
+                        </p>
+                    </div>
+
+                @endif
 
                 <hr class="card-divider">
 
