@@ -45,7 +45,7 @@ class AuthController extends Controller
             $peranPengguna = $this->identifikasiPeran($dataAkun);
 
             if ($peranPengguna === 'Mahasiswa') {
-                return $this->loginBerhasil($request, '/dashboard-mahasiswa', 'Berhasil masuk. Mengalihkan ke halaman pengajuan.');
+                return $this->loginBerhasil($request, '/beranda-mahasiswa', 'Berhasil masuk. Mengalihkan ke halaman pengajuan.');
             }
 
             if ($peranPengguna === 'AdminFakultas') {
