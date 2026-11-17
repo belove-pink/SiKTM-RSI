@@ -2,6 +2,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ValidasiPengajuanController;
+use App\Http\Controllers\TrackStatusController;
+use App\Http\Controllers\KontrolRekap;
 use App\Http\Controllers\BerandaMahasiswaController;
 
 // Halaman utama
@@ -141,3 +145,37 @@ Route::get('/beranda-mahasiswa', [
     BerandaMahasiswaController::class,
     'index'
 ])->name('beranda.mahasiswa');
+
+// Preview tampilan Ajukan KTM tanpa database
+Route::get('/preview-ajukan-ktm', function () {
+    return view('ajukan-ktm', [
+        'namaMahasiswa' => '',
+        'nim' => '',
+        'fakultas' => '',
+        'prodi' => '',
+        'daftarFakultas' => collect([
+            (object) ['namaFakultas' => 'Fakultas Ilmu Komputer'],
+            (object) ['namaFakultas' => 'Fakultas Teknik'],
+            (object) ['namaFakultas' => 'Fakultas Ekonomi dan Bisnis'],
+            (object) ['namaFakultas' => 'Fakultas Hukum'],
+        ]),
+    ]);
+});
+
+Route::post('/ajukan-ktm', function (\Illuminate\Http\Request $request) {
+    return redirect('/pengajuan-terkirim')->with([
+        'alasan'  => $request->input('alasan'),
+        'jalur'   => 'Rektorat',
+        'tanggal' => now()->translatedFormat('d F Y'),
+    ]);
+});
+
+Route::get('/pengajuan-terkirim', function () {
+    return view('pengajuan-terkirim', [
+        'namaMahasiswa' => session('namaMahasiswa'),
+        'alasan'        => session('alasan'),
+        'jalur'         => session('jalur'),
+        'tanggal'       => session('tanggal'),
+    ]);
+});
+
