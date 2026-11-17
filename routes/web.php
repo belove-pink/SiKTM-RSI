@@ -179,3 +179,23 @@ Route::get('/pengajuan-terkirim', function () {
     ]);
 });
 
+// Preview tampilan Profil Mahasiswa tanpa database
+Route::get('/preview-profil-mahasiswa', function () {
+    return view('profil-mahasiswa', [
+        'namaMahasiswa' => 'Contoh Mahasiswa',
+        'nim' => '255150400111000',
+        'statusAkun' => 'Aktif',
+        'prodi' => 'Sistem Informasi',
+        'fakultas' => 'Fakultas Ilmu Komputer',
+        'angkatan' => '2025',
+        'emailUb' => 'contoh@student.ub.ac.id',
+        'telepon' => '081234567890',
+    ]);
+});
+
+// Keluar dari akun
+Route::post('/keluar', function () {
+    session()->flush();
+    return redirect('/login');
+});
+
