@@ -23,7 +23,7 @@ body{margin:0;font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif;font-w
 .search-bar{display:flex;gap:10px;margin-bottom:26px}
 .search-bar input,.search-bar select{height:46px;padding:0 20px;border:1px solid #b9c9e6;border-radius:12px;background:#fff;color:var(--navy);font:inherit;font-size:14px}
 .search-bar input{flex:1;min-width:0}
-.search-bar select{width:170px;font-weight:600;cursor:pointer}
+.search-bar select{width:auto;min-width:170px;padding:0 46px 0 20px;font-weight:600;cursor:pointer;-webkit-appearance:none;appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%2313305a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 20px center/12px 8px}
 .search-bar input:focus-visible,.search-bar select:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 
 /* ----- Tabel ----- */

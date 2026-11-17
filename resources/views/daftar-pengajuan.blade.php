@@ -29,7 +29,7 @@
 
     <form class="search-bar" method="GET" action="{{ route('daftar-pengajuan') }}">
         <input type="search" name="q" value="{{ $q }}" placeholder="Cari NIM atau nama" aria-label="Cari NIM atau nama">
-        <select name="status" aria-label="Filter status" onchange="this.form.submit()">
+        <select name="status" aria-label="Filter status">
             <option value="">Semua status</option>
             @foreach ($label as $nilai => $teks)
                 <option value="{{ $nilai }}" @selected($status === $nilai)>{{ $teks }}</option>
