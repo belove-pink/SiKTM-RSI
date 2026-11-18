@@ -17,7 +17,10 @@ class PengajuanKTM extends Model
         'nim',
         'jalur',
         'dokumen',
+        'pas_foto',
+        'dokumen_pendukung',
         'status',
+        'catatan',
         'tanggalPengajuan'
     ];
 

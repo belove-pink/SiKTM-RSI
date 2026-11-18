@@ -439,9 +439,9 @@
 
     <nav>
         <a href="#" class="active">Beranda</a>
-        <a href="#">Riwayat</a>
-        <a href="#">Bantuan</a>
-        <a href="#">{{ auth()->user()->name ?? '[NAMA MAHASISWA]' }}</a>
+        <a href="#">Verifikasi</a>
+        <a href="#">Rekap</a>
+        <a href="#">{{ auth()->user()->name ?? '[ADMIN REKTORAT]' }}</a>
     </nav>
 </header>
 
@@ -563,9 +563,8 @@
         <div class="footer-links">
             <h4>NAVIGASI</h4>
             <a href="#">Beranda</a>
-            <a href="#">Riwayat</a>
-            <a href="#">Bantuan</a>
-            <a href="#">Kontak Kemahasiswaan</a>
+            <a href="#">Verifikasi</a>
+            <a href="#">Rekap</a>
         </div>
 
         <div class="footer-links">

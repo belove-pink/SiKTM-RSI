@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PengajuanKTM;
 use App\Models\Pengguna;
 use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\DB;
 
 class ValidasiPengajuanController extends Controller
 {
@@ -18,11 +19,9 @@ class ValidasiPengajuanController extends Controller
             ->exists();
     }
 
-
-    // Memvalidasi dan menyimpan pengajuan KTM
+    // Memvalidasi dan menyimpan pengajuan KTM mahasiswa
     public function validasiPengajuanGanda(Request $request)
     {
-        // Memastikan pengguna sudah login
         $idPengguna = session('idPengguna');
 
         if (!$idPengguna) {
@@ -30,21 +29,19 @@ class ValidasiPengajuanController extends Controller
                 ->with('error', 'Silakan login terlebih dahulu.');
         }
 
-        // Memvalidasi input formulir
+        // Validasi data dan file yang diunggah mahasiswa
         $validated = $request->validate([
             'nim' => 'required|string|max:20',
             'jalur' => 'required|in:Rektorat,Bank',
-            'dokumen' => 'required|string|max:255'
+            'pas_foto' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'dokumen_pendukung' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120'
         ]);
 
         $nim = $validated['nim'];
         $jalur = $validated['jalur'];
-        $dokumen = $validated['dokumen'];
 
-        // Mengambil data pengguna yang sedang login
         $pengguna = Pengguna::find($idPengguna);
 
-        // Memastikan akun merupakan mahasiswa dan NIM sesuai
         if (
             !$pengguna ||
             $pengguna->nim !== $nim ||
@@ -56,7 +53,6 @@ class ValidasiPengajuanController extends Controller
             );
         }
 
-        // Memastikan data mahasiswa tersedia di tabel Mahasiswa
         $mahasiswa = Mahasiswa::where('idPengguna', $idPengguna)
             ->exists();
 
@@ -67,24 +63,34 @@ class ValidasiPengajuanController extends Controller
             );
         }
 
-        // Mengecek pengajuan Bank yang masih aktif
-        $pengajuanAktif = $this->cariPengajuanAktif($nim);
-
-        // Menolak pengajuan Rektorat jika masih ada pengajuan Bank aktif
-        if ($jalur === 'Rektorat' && $pengajuanAktif) {
+        // Pengecekan pengajuan Bank aktif
+        if (
+            $jalur === 'Rektorat' &&
+            $this->cariPengajuanAktif($nim)
+        ) {
             return back()->with(
                 'error',
                 'Anda masih memiliki pengajuan KTM aktif melalui jalur Bank.'
             );
         }
 
-        // Menyimpan pengajuan KTM ke database
-        $pengajuan = PengajuanKTM::create([
+        // Menyimpan file ke storage
+        $pathPasFoto = $request->file('pas_foto')
+            ->store('dokumen/pas-foto', 'public');
+
+        $pathDokumenPendukung = $request->file('dokumen_pendukung')
+            ->store('dokumen/pendukung', 'public');
+
+        // Menyimpan data pengajuan ke database
+        PengajuanKTM::create([
             'idPengguna' => $idPengguna,
             'nim' => $nim,
             'jalur' => $jalur,
-            'dokumen' => $dokumen,
+            'dokumen' => null,
+            'pas_foto' => $pathPasFoto,
+            'dokumen_pendukung' => $pathDokumenPendukung,
             'status' => 'Diajukan',
+            'catatan' => null,
             'tanggalPengajuan' => now()->toDateString()
         ]);
 
@@ -93,7 +99,6 @@ class ValidasiPengajuanController extends Controller
             'Pengajuan KTM berhasil disimpan.'
         );
     }
-
 
     // Mengambil data pengajuan untuk Admin Rektorat
     public function teruskanKeAdminRektorat($idPengajuan)
@@ -107,7 +112,6 @@ class ValidasiPengajuanController extends Controller
         return PengajuanKTM::findOrFail($idPengajuan);
     }
 
-
     // Menampilkan halaman verifikasi pengajuan KTM
     public function halamanVerifikasi($idPengajuan)
     {
@@ -117,26 +121,65 @@ class ValidasiPengajuanController extends Controller
             return $redirect;
         }
 
-        $pengajuan = PengajuanKTM::findOrFail($idPengajuan);
+        $pengajuan = DB::table('PengajuanKTM')
+            ->join(
+                'Pengguna',
+                'PengajuanKTM.idPengguna',
+                '=',
+                'Pengguna.idPengguna'
+            )
+            ->join(
+                'Mahasiswa',
+                'PengajuanKTM.idPengguna',
+                '=',
+                'Mahasiswa.idPengguna'
+            )
+            ->join(
+                'ProgramStudi',
+                'Mahasiswa.idProdi',
+                '=',
+                'ProgramStudi.idProdi'
+            )
+            ->join(
+                'Fakultas',
+                'ProgramStudi.idFakultas',
+                '=',
+                'Fakultas.idFakultas'
+            )
+            ->where('PengajuanKTM.idPengajuan', $idPengajuan)
+            ->select(
+                'PengajuanKTM.*',
+                'Pengguna.nama',
+                'ProgramStudi.namaProdi',
+                'Fakultas.namaFakultas'
+            )
+            ->first();
 
-        // Mengecek apakah terdapat pengajuan Bank aktif lainnya
-        $pengajuanAktifBank = PengajuanKTM::where('nim', $pengajuan->nim)
+        if (!$pengajuan) {
+            abort(404);
+        }
+
+        // Cek pengajuan Bank aktif dengan NIM yang sama
+        $pengajuanAktifBank = PengajuanKTM::where(
+                'nim',
+                $pengajuan->nim
+            )
             ->where('jalur', 'Bank')
             ->whereIn('status', ['Diajukan', 'Diverifikasi'])
             ->where('idPengajuan', '!=', $idPengajuan)
             ->exists();
 
-        // Menentukan hasil validasi pengajuan
         $validasiLolos = !(
-            $pengajuan->jalur === 'Rektorat' && $pengajuanAktifBank
+            $pengajuan->jalur === 'Rektorat' &&
+            $pengajuanAktifBank
         );
 
         return view('verifikasi-pengajuan', compact(
             'pengajuan',
-            'validasiLolos'
+            'validasiLolos',
+            'pengajuanAktifBank'
         ));
     }
-
 
     // Menyimpan keputusan verifikasi Admin Rektorat
     public function simpanKeputusan(Request $request, $idPengajuan)
@@ -149,14 +192,48 @@ class ValidasiPengajuanController extends Controller
 
         $pengajuan = PengajuanKTM::findOrFail($idPengajuan);
 
-        // Memvalidasi keputusan Admin Rektorat
+        if (!in_array($pengajuan->status, ['Diajukan', 'Diverifikasi'])) {
+            return back()->with(
+                'error',
+                'Pengajuan ini sudah memiliki keputusan akhir.'
+            );
+        }
+
         $validated = $request->validate([
-            'keputusan' => 'required|in:Diterima,Ditolak'
+            'keputusan' => 'required|in:Diterima,Diverifikasi,Ditolak',
+            'catatan' => 'nullable|string|max:1000'
         ]);
 
-        // Mengubah status pengajuan sesuai keputusan
+        // Validasi ulang untuk mencegah pengajuan ganda disetujui
+        $pengajuanAktifBank = $pengajuan->jalur === 'Rektorat'
+            && $this->cariPengajuanAktifSelain(
+                $pengajuan->nim,
+                $pengajuan->idPengajuan
+            );
+
+        if (
+            $validated['keputusan'] === 'Diterima' &&
+            $pengajuanAktifBank
+        ) {
+            return back()->with(
+                'error',
+                'Pengajuan tidak dapat disetujui karena ditemukan pengajuan aktif melalui jalur Bank.'
+            );
+        }
+
+        if (
+            in_array($validated['keputusan'], ['Diverifikasi', 'Ditolak']) &&
+            empty(trim($validated['catatan'] ?? ''))
+        ) {
+            return back()->withErrors([
+                'catatan' => 'Catatan wajib diisi jika data tidak lengkap atau pengajuan ditolak.'
+            ])->withInput();
+        }
+
+        // Simpan keputusan dan catatan admin
         $pengajuan->update([
-            'status' => $validated['keputusan']
+            'status' => $validated['keputusan'],
+            'catatan' => $validated['catatan'] ?? null
         ]);
 
         return back()->with(
@@ -165,6 +242,15 @@ class ValidasiPengajuanController extends Controller
         );
     }
 
+    // Mengecek pengajuan Bank aktif selain pengajuan yang sedang diverifikasi
+    private function cariPengajuanAktifSelain($nim, $idPengajuan)
+    {
+        return PengajuanKTM::where('nim', $nim)
+            ->where('jalur', 'Bank')
+            ->whereIn('status', ['Diajukan', 'Diverifikasi'])
+            ->where('idPengajuan', '!=', $idPengajuan)
+            ->exists();
+    }
 
     // Memastikan pengguna yang mengakses merupakan Admin Rektorat
     private function pastikanAdminRektorat()
