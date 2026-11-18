@@ -1,6 +1,6 @@
-
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ValidasiPengajuanController;
@@ -56,6 +56,21 @@ Route::get('/preview-pengajuan-terkirim', function () {
         'alasan' => 'KTM baru',
         'jalur' => 'Rektorat',
         'tanggal' => '13 November 2026',
+    ]);
+});
+
+// Halaman Ajukan KTM
+Route::get('/ajukan-ktm', function () {
+    $daftarFakultas = DB::table('Fakultas')
+        ->orderBy('namaFakultas')
+        ->get();
+
+    return view('ajukan-ktm', [
+        'namaMahasiswa' => '',
+        'nim' => '',
+        'fakultas' => '',
+        'prodi' => '',
+        'daftarFakultas' => $daftarFakultas,
     ]);
 });
 
