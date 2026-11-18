@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaMahasiswaController;
+use App\Models\Pengguna;
 use Illuminate\Support\Facades\Route;
 
 // Halaman utama
@@ -15,6 +16,36 @@ Route::get('/login', function () {
 });
 
 Route::post('/login', [AuthController::class, 'login']);
+
+// Dashboard admin rektorat
+Route::get('/dashboard-admin-rektorat', function () {
+    $akun = Pengguna::find(session('idPengguna'));
+
+    if (!$akun) {
+        return redirect('/login');
+    }
+
+    if ($akun->peran !== 'AdminRektorat') {
+        abort(403);
+    }
+
+    return view('beranda-admin-rektorat');
+});
+
+// Dashboard admin fakultas
+Route::get('/dashboard-admin-fakultas', function () {
+    $akun = Pengguna::find(session('idPengguna'));
+
+    if (!$akun) {
+        return redirect('/login');
+    }
+
+    if ($akun->peran !== 'AdminFakultas') {
+        abort(403);
+    }
+
+    return view('beranda-admin-fakultas');
+});
 
 // Status pengajuan
 Route::get('/status-pengajuan', function () {

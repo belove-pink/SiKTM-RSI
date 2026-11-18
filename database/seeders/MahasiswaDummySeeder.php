@@ -12,6 +12,41 @@ class MahasiswaDummySeeder extends Seeder
     {
         DB::transaction(function () {
 
+// Daftar fakultas Universitas Brawijaya
+$daftarFakultas = [
+    'Fakultas Hukum',
+    'Fakultas Ekonomi dan Bisnis',
+    'Fakultas Ilmu Administrasi',
+    'Fakultas Bio-Industri Pertanian dan Kehutanan',
+    'Fakultas Sains dan Teknologi Peternakan',
+    'Fakultas Perikanan dan Ilmu Kelautan',
+    'Fakultas Kedokteran',
+    'Fakultas Teknik',
+    'Fakultas Sains, Teknologi, dan Matematika',
+    'Fakultas Teknologi Agroindustri dan Biosistem',
+    'Fakultas Ilmu Sosial dan Ilmu Politik',
+    'Fakultas Ilmu Budaya',
+    'Fakultas Kedokteran Hewan',
+    'Fakultas Ilmu Komputer',
+    'Fakultas Kedokteran Gigi',
+    'Fakultas Ilmu Kesehatan',
+    'Fakultas Vokasi',
+];
+
+// Masukkan fakultas yang belum tersedia
+foreach ($daftarFakultas as $nama) {
+    $sudahAda = DB::table('Fakultas')
+        ->where('namaFakultas', $nama)
+        ->exists();
+
+    if (!$sudahAda) {
+        DB::table('Fakultas')->insert([
+            'namaFakultas' => $nama,
+        ]);
+    }
+}
+
+
             // =====================================
             // 1. DATA FAKULTAS
             // =====================================
@@ -25,10 +60,9 @@ class MahasiswaDummySeeder extends Seeder
             if ($fakultas) {
                 $idFakultas = $fakultas->idFakultas;
             } else {
-                $idFakultas = DB::table('Fakultas')
-                    ->insertGetId([
-                        'namaFakultas' => $namaFakultas
-                    ]);
+                $idFakultas = DB::table('Fakultas')->insertGetId([
+                    'namaFakultas' => 'Fakultas Ilmu Komputer',
+                ], 'idFakultas');
             }
 
 
@@ -46,11 +80,10 @@ class MahasiswaDummySeeder extends Seeder
             if ($prodi) {
                 $idProdi = $prodi->idProdi;
             } else {
-                $idProdi = DB::table('ProgramStudi')
-                    ->insertGetId([
-                        'namaProdi' => $namaProdi,
-                        'idFakultas' => $idFakultas
-                    ]);
+                $idProdi = DB::table('ProgramStudi')->insertGetId([
+                    'namaProdi' => 'Sistem Informasi',
+                    'idFakultas' => $idFakultas,
+                ], 'idProdi');
             }
 
 
@@ -79,8 +112,10 @@ class MahasiswaDummySeeder extends Seeder
                     ->where('idPengguna', $idPengguna)
                     ->update($dataPengguna);
             } else {
-                $idPengguna = DB::table('Pengguna')
-                    ->insertGetId($dataPengguna);
+                $idPengguna = DB::table('Pengguna')->insertGetId([
+                    'nim' => $nim,
+                    'nama' => 'Mahasiswa Dummy', 'kataSandi' => Hash::make('DummyLogin2026!'),
+                    'peran' => 'Mahasiswa','idFakultas' => $idFakultas,], 'idPengguna');
             }
 
 

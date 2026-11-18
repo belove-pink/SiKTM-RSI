@@ -16,19 +16,22 @@ class AuthController extends Controller
         $kataSandi = $request->input('kataSandi');
         $peran = $request->input('peran');
 
-        // Jika NIM atau kata sandi kosong, tampilkan pesan
-        if (empty($nim) || empty($kataSandi)) {
+        // Jika NIM, kata sandi, atau peran kosong, tampilkan pesan
+        if (empty($nim) || empty($kataSandi) || empty($peran)) {
             return $this->loginGagal($request, 'Data wajib diisi');
         }
 
-        // Pilihan angkatan (2024 sampai 2026) berarti peran Mahasiswa
-        if (is_numeric($peran)) {
+        if (preg_match('/^\d{4}$/', $peran)) {
+            // Pilihan angkatan (misal 2024 sampai 2026) berarti peran Mahasiswa
             // Dua angka pertama NIM harus sama dengan dua angka terakhir angkatan
             if (!$this->nimSesuaiAngkatan($nim, $peran)) {
                 return $this->loginGagal($request, 'NIM tidak sesuai dengan angkatan yang dipilih');
             }
 
             $peran = 'Mahasiswa';
+        } elseif (!in_array($peran, ['AdminFakultas', 'AdminRektorat'], true)) {
+            // Peran selain angkatan, admin fakultas, dan admin rektorat ditolak
+            return $this->loginGagal($request, 'Peran tidak valid');
         }
 
         // Cari akun berdasarkan NIM dan peran
@@ -38,25 +41,34 @@ class AuthController extends Controller
 
         // Jika akun ada dan kata sandi cocok, login berhasil
         if ($dataAkun && $this->verifikasiKataSandi($kataSandi, $dataAkun->kataSandi)) {
+            // Buat ID sesi baru supaya aman dari session fixation
+            $request->session()->regenerate();
+
             // Simpan id pengguna ke sesi
             session(['idPengguna' => $dataAkun->idPengguna]);
 
             // Tentukan dashboard sesuai peran
             $peranPengguna = $this->identifikasiPeran($dataAkun);
 
-            if ($peranPengguna === 'Mahasiswa') {
-                return $this->loginBerhasil($request, '/beranda-mahasiswa', 'Berhasil masuk. Mengalihkan ke halaman pengajuan.');
-            }
-
-            if ($peranPengguna === 'AdminFakultas') {
-                return $this->loginBerhasil($request, '/dashboard-admin-fakultas', 'Berhasil masuk. Mengalihkan ke dashboard.');
-            }
-
-            return $this->loginBerhasil($request, '/dashboard-admin-rektorat', 'Berhasil masuk. Mengalihkan ke dashboard.');
+            return match ($peranPengguna) {
+                'Mahasiswa' => $this->loginBerhasil($request, '/beranda-mahasiswa', 'Berhasil masuk. Mengalihkan ke halaman pengajuan.'),
+                'AdminFakultas' => $this->loginBerhasil($request, '/dashboard-admin-fakultas', 'Berhasil masuk. Mengalihkan ke dashboard.'),
+                'AdminRektorat' => $this->loginBerhasil($request, '/dashboard-admin-rektorat', 'Berhasil masuk. Mengalihkan ke dashboard.'),
+                default => $this->loginGagal($request, 'Peran akun tidak dikenali'),
+            };
         }
 
         // Jika akun tidak ada atau kata sandi salah
         return $this->loginGagal($request, 'NIM atau kata sandi salah');
+    }
+
+    // Keluar dari akun dan hapus sesi
+    public function logout(Request $request)
+    {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 
     // Membandingkan kata sandi input dengan hash di database
