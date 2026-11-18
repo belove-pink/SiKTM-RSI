@@ -29,7 +29,9 @@ Route::get('/dashboard-admin-rektorat', function () {
         abort(403);
     }
 
-    return view('beranda-admin-rektorat');
+    return view('beranda-admin-rektorat', [
+        'admin' => $akun
+    ]);
 });
 
 // Dashboard admin fakultas
@@ -44,8 +46,11 @@ Route::get('/dashboard-admin-fakultas', function () {
         abort(403);
     }
 
-    return view('beranda-admin-fakultas');
+    return view('beranda-admin-fakultas', [
+        'admin' => $akun
+    ]);
 });
+
 
 // Status pengajuan
 Route::get('/status-pengajuan', function () {
