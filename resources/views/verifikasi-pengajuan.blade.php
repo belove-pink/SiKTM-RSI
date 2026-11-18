@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -12,7 +13,7 @@
     <style>
         :root {
             --heading-font: 'Bricolage Grotesque', 'Plus Jakarta Sans', Arial, sans-serif;
-            --frame: 1200px; /* makin kecil = konten makin sempit */
+            --frame: 1200px;
         }
 
         * {
@@ -22,12 +23,11 @@
             font-family: 'Plus Jakarta Sans', Arial, sans-serif;
         }
 
-        /* Bricolage Grotesque hanya untuk judul halaman & logo */
         .brand-name,
         .page-title {
             font-family: var(--heading-font);
             font-optical-sizing: none;
-            font-variation-settings: 'opsz' 96; /* bentuk huruf display, seperti di desain */
+            font-variation-settings: 'opsz' 96;
         }
 
         body {
@@ -36,9 +36,8 @@
             color: #17345d;
         }
 
-        /* ================= HEADER ================= */
         header {
-            height: 66px;
+            min-height: 66px;
             background: #17345d;
             color: #ffffff;
             padding: 0 max(3%, calc((100% - var(--frame)) / 2 + 37px));
@@ -82,7 +81,7 @@
             display: flex;
             align-items: center;
             gap: 45px;
-            height: 66px;
+            min-height: 66px;
         }
 
         nav a {
@@ -90,7 +89,7 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
-            height: 100%;
+            min-height: 66px;
             display: flex;
             align-items: center;
             border-bottom: 3px solid transparent;
@@ -101,7 +100,6 @@
             border-bottom-color: #f5ad00;
         }
 
-        /* ================= MAIN ================= */
         main {
             width: 100%;
             padding: 0 max(5.7%, calc((100% - var(--frame)) / 2 + 72px));
@@ -136,7 +134,6 @@
             padding: 24px 22px;
         }
 
-        /* ---- Data mahasiswa ---- */
         .data-label {
             font-size: 13px;
             color: #5f7188;
@@ -190,9 +187,17 @@
             white-space: nowrap;
         }
 
-        /* ---- Validasi otomatis ---- */
+        .document-row a:hover {
+            text-decoration: underline;
+        }
+
+        .document-unavailable {
+            color: #8a96a8;
+            font-size: 12px;
+        }
+
         .validation {
-            padding: 30px 30px;
+            padding: 30px;
             border-radius: 21px;
             flex: 1;
         }
@@ -216,12 +221,22 @@
             line-height: 1.55;
         }
 
-        .validation.pass h4 { color: #16805a; }
-        .validation.pass p  { color: #258466; }
-        .validation.fail h4 { color: #b42318; }
-        .validation.fail p  { color: #912018; }
+        .validation.pass h4 {
+            color: #16805a;
+        }
 
-        /* ---- Keputusan ---- */
+        .validation.pass p {
+            color: #258466;
+        }
+
+        .validation.fail h4 {
+            color: #b42318;
+        }
+
+        .validation.fail p {
+            color: #912018;
+        }
+
         .decision-card {
             padding: 28px 22px 26px;
             min-width: 0;
@@ -245,9 +260,7 @@
             cursor: pointer;
         }
 
-        /* radio custom: lingkaran tipis, terpilih = titik navy */
         .decision-option input {
-            -webkit-appearance: none;
             appearance: none;
             width: 14px;
             height: 14px;
@@ -273,7 +286,7 @@
 
         textarea {
             width: 100%;
-            height: 78px;
+            min-height: 78px;
             border: 1px solid #17345d;
             border-radius: 8px;
             padding: 10px;
@@ -310,11 +323,10 @@
             margin-left: 6px;
         }
 
-        /* ---- Notifikasi ---- */
         .message {
             padding: 11px 14px;
             border-radius: 8px;
-            font-size: 11px;
+            font-size: 12px;
             margin-bottom: 16px;
         }
 
@@ -328,7 +340,6 @@
             color: #b42318;
         }
 
-        /* ================= FOOTER ================= */
         footer {
             background: #17345d;
             color: #ffffff;
@@ -372,24 +383,23 @@
             text-decoration: underline;
         }
 
-        /* ================= RESPONSIVE ================= */
         @media (max-width: 900px) {
             header {
-                height: auto;
                 padding: 16px 5%;
                 flex-direction: column;
                 gap: 12px;
             }
 
             nav {
-                height: 40px;
+                min-height: 40px;
                 gap: 24px;
                 flex-wrap: wrap;
                 justify-content: center;
             }
 
             nav a {
-                font-size: 15px;
+                min-height: 40px;
+                font-size: 13px;
             }
 
             main {
@@ -441,7 +451,9 @@
         <a href="#" class="active">Beranda</a>
         <a href="#">Verifikasi</a>
         <a href="#">Rekap</a>
-        <a href="#">{{ auth()->user()->name ?? '[ADMIN REKTORAT]' }}</a>
+        <a href="#">
+            {{ session('nama') ?? '[ADMIN REKTORAT]' }}
+        </a>
     </nav>
 </header>
 
@@ -449,15 +461,21 @@
     <h1 class="page-title">Verifikasi Pengajuan</h1>
 
     @if(session('success'))
-        <div class="message success">{{ session('success') }}</div>
+        <div class="message success">
+            {{ session('success') }}
+        </div>
     @endif
 
     @if(session('error'))
-        <div class="message error">{{ session('error') }}</div>
+        <div class="message error">
+            {{ session('error') }}
+        </div>
     @endif
 
     @if($errors->any())
-        <div class="message error">{{ $errors->first() }}</div>
+        <div class="message error">
+            {{ $errors->first() }}
+        </div>
     @endif
 
     <div class="content">
@@ -469,27 +487,52 @@
                 <p class="data-label">Data Mahasiswa</p>
 
                 <p class="student-name">
-                    {{ $pengajuan->mahasiswa->nama ?? '[NAMA MAHASISWA]' }}
+                    {{ $pengajuan->nama ?? '[NAMA MAHASISWA]' }}
                 </p>
 
                 <p class="student-info">
                     NIM {{ $pengajuan->nim ?? '[NIM]' }}
-                    &middot; {{ $pengajuan->mahasiswa->program_studi ?? '[Program Studi]' }},
-                    {{ $pengajuan->mahasiswa->fakultas ?? '[FAKULTAS]' }}
+                    &middot;
+                    {{ $pengajuan->namaProdi ?? '[Program Studi]' }},
+                    {{ $pengajuan->namaFakultas ?? '[FAKULTAS]' }}
                 </p>
 
                 <p class="document-title">Dokumen</p>
 
                 <div class="document-row">
-                    <span>Pas foto.jpg</span>
-                    <a href="{{ !empty($pengajuan->pas_foto) ? asset('storage/' . $pengajuan->pas_foto) : '#' }}"
-                       target="_blank">Lihat</a>
+                    <span>Pas foto</span>
+
+                    @if(!empty($pengajuan->pas_foto))
+                        <a
+                            href="{{ asset('storage/' . $pengajuan->pas_foto) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Lihat
+                        </a>
+                    @else
+                        <span class="document-unavailable">
+                            Belum tersedia
+                        </span>
+                    @endif
                 </div>
 
                 <div class="document-row">
-                    <span>Dokumen pendukung.jpg</span>
-                    <a href="{{ !empty($pengajuan->dokumen_pendukung) ? asset('storage/' . $pengajuan->dokumen_pendukung) : '#' }}"
-                       target="_blank">Lihat</a>
+                    <span>Dokumen pendukung</span>
+
+                    @if(!empty($pengajuan->dokumen_pendukung))
+                        <a
+                            href="{{ asset('storage/' . $pengajuan->dokumen_pendukung) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Lihat
+                        </a>
+                    @else
+                        <span class="document-unavailable">
+                            Belum tersedia
+                        </span>
+                    @endif
                 </div>
             </section>
 
@@ -499,7 +542,8 @@
                 <p>
                     {{ $validasiLolos
                         ? 'Tidak ditemukan pengajuan aktif melalui Bank untuk NIM ini. Pengajuan boleh diproses.'
-                        : 'Ditemukan pengajuan aktif melalui Bank untuk NIM ini. Pengajuan perlu diperiksa kembali.' }}
+                        : 'Ditemukan pengajuan aktif melalui Bank untuk NIM ini. Pengajuan perlu diperiksa kembali.'
+                    }}
                 </p>
             </section>
 
@@ -509,33 +553,56 @@
         <section class="card decision-card">
             <h3>Keputusan</h3>
 
-            <form action="{{ route('pengajuan-ktm.keputusan', $pengajuan->idPengajuan) }}"
-                  method="POST">
+            <form
+                action="{{ route('pengajuan-ktm.keputusan', $pengajuan->idPengajuan) }}"
+                method="POST"
+            >
                 @csrf
 
                 <label class="decision-option">
-                    <input type="radio" name="keputusan" value="Diterima"
-                           {{ old('keputusan', 'Diterima') === 'Diterima' ? 'checked' : '' }} required>
+                    <input
+                        type="radio"
+                        name="keputusan"
+                        value="Diterima"
+                        {{ old('keputusan') === 'Diterima' ? 'checked' : '' }}
+                        required
+                    >
                     Disetujui
                 </label>
 
                 <label class="decision-option">
-                    <input type="radio" name="keputusan" value="Diverifikasi"
-                           {{ old('keputusan') === 'Diverifikasi' ? 'checked' : '' }}>
+                    <input
+                        type="radio"
+                        name="keputusan"
+                        value="Diverifikasi"
+                        {{ old('keputusan') === 'Diverifikasi' ? 'checked' : '' }}
+                    >
                     Data tidak lengkap
                 </label>
 
                 <label class="decision-option">
-                    <input type="radio" name="keputusan" value="Ditolak"
-                           {{ old('keputusan') === 'Ditolak' ? 'checked' : '' }}>
+                    <input
+                        type="radio"
+                        name="keputusan"
+                        value="Ditolak"
+                        {{ old('keputusan') === 'Ditolak' ? 'checked' : '' }}
+                    >
                     Ditolak
                 </label>
 
-                <label class="note-label" for="catatan">Catatan untuk mahasiswa</label>
+                <label class="note-label" for="catatan">
+                    Catatan untuk mahasiswa
+                </label>
 
-                <textarea id="catatan" name="catatan">{{ old('catatan') }}</textarea>
+                <textarea
+                    id="catatan"
+                    name="catatan"
+                    placeholder="Tambahkan catatan jika diperlukan..."
+                >{{ old('catatan') }}</textarea>
 
-                <button type="submit">Simpan Keputusan</button>
+                <button type="submit">
+                    Simpan Keputusan
+                </button>
             </form>
 
             <p class="admin-note">
@@ -550,7 +617,10 @@
     <div class="footer-content">
 
         <div class="footer-brand">
-            <h2>KEMAHASISWAAN<br>UNIVERSITAS BRAWIJAYA</h2>
+            <h2>
+                KEMAHASISWAAN<br>
+                UNIVERSITAS BRAWIJAYA
+            </h2>
 
             <p>
                 SiKTM adalah sistem informasi pengajuan dan pemantauan
