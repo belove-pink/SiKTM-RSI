@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\BerandaAdminFakultasController;
 use App\Http\Controllers\BerandaAdminRektoratController;
 use App\Http\Controllers\BerandaMahasiswaController;
@@ -54,6 +55,9 @@ Route::get('/beranda-mahasiswa', [
     BerandaMahasiswaController::class,
     'index'
 ])->name('beranda.mahasiswa');
+
+// Bantuan (FAQ)
+Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
 
 // Mengecek pengajuan KTM aktif berdasarkan NIM
 Route::get('/pengajuan-ktm/cek/{nim}', [
