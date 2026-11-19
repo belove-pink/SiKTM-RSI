@@ -7,6 +7,7 @@ use App\Http\Controllers\BerandaAdminRektoratController;
 use App\Http\Controllers\BerandaMahasiswaController;
 use App\Http\Controllers\KontrolRekap;
 use App\Http\Controllers\PengajuanKTMController;
+use App\Http\Controllers\RiwayatPengajuanController;
 use App\Http\Controllers\TrackStatusController;
 use App\Http\Controllers\ValidasiPengajuanController;
 use App\Models\Pengguna;
@@ -58,6 +59,18 @@ Route::get('/beranda-mahasiswa', [
 
 // Bantuan (FAQ)
 Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
+
+// Halaman Riwayat Pengajuan
+Route::get('/preview-riwayat-pengajuan', [
+    RiwayatPengajuanController::class,
+    'index'
+])->name('riwayat.pengajuan');
+
+// Alias URL riwayat untuk link menu
+Route::get('/riwayat-pengajuan', [
+    RiwayatPengajuanController::class,
+    'index'
+]);
 
 // Mengecek pengajuan KTM aktif berdasarkan NIM
 Route::get('/pengajuan-ktm/cek/{nim}', [
