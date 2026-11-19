@@ -19,7 +19,7 @@
             $namaUser = null;
         }
     }
-    // samakan dengan route Beranda temanmu
+    // samakan dengan route Beranda 
     $urlBeranda = Route::has('beranda') ? route('beranda') : url('/beranda-manasiswa');
 @endphp
 
@@ -85,12 +85,33 @@
                         <dt>Keterangan</dt><dd>{{ $pengajuan->keteranganPengambilan ?? '-' }}</dd>
                     </dl>
                 </div>
+        
             @elseif ($ditolak)
                 <div class="info tolak">
                     <strong>Alasan penolakan:</strong><br>
                     {{ $pengajuan->catatan ?? 'Pengajuan tidak dapat diproses.' }}
                 </div>
                 <p class="help-text">Merasa ini keliru? Hubungi Admin Rektorat dengan menyebutkan NIM kamu.</p>
+                        @elseif ($status === 'Diajukan')
+                <div class="info netral">
+                    <strong>Pengajuanmu sudah terkirim</strong><br>
+                    Pengajuan kamu sudah masuk ke sistem dan menunggu diperiksa oleh Admin Rektorat. Pastikan NIM dan dokumenmu sudah benar.
+                </div>
+
+                        @elseif ($status === 'Diverifikasi')
+                <div class="info proses">
+                    <strong>Pengajuanmu sedang diverifikasi</strong>
+                    <dl>
+                        <dt>Diperiksa oleh</dt><dd>Admin Rektorat</dd>
+                        <dt>Yang diperiksa</dt><dd>Kelengkapan dokumen dan pengecekan pengajuan ganda</dd>
+                        <dt>Selanjutnya</dt><dd>Kamu mendapat notifikasi saat statusnya berubah. Bila data tidak lengkap, notifikasi maksimal 2x24 jam.</dd>
+                    </dl>
+                </div>
+            @elseif ($status === 'Diterima')
+                <div class="info ok">
+                    <strong>Pengajuanmu disetujui</strong><br>
+                    KTM kamu sedang diproses. Informasi lokasi dan jadwal pengambilan akan muncul di sini begitu KTM siap diambil.
+                </div>
             @endif
         </section>
     @else

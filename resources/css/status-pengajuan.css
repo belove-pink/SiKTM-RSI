@@ -57,6 +57,7 @@ body{margin:0;font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif;font-w
 .info strong{font-size:15px}
 .info.ok{background:var(--green-bg);color:var(--green)}
 .info.tolak{background:var(--red-bg);color:var(--red)}
+.info.proses{background:#fff4d6;color:#8a5b00}
 .info.netral{background:#e8eff9;color:var(--muted)}
 .info.netral strong{color:var(--navy)}
 .info dl{display:grid;grid-template-columns:120px 1fr;gap:8px 0;margin:12px 0 0}
