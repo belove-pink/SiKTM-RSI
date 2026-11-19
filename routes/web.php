@@ -7,6 +7,8 @@ use App\Http\Controllers\ValidasiPengajuanController;
 use App\Http\Controllers\TrackStatusController;
 use App\Http\Controllers\KontrolRekap;
 use App\Http\Controllers\BerandaMahasiswaController;
+use App\Http\Controllers\PengajuanController;
+
 
 // Halaman utama
 Route::get('/', function () {
@@ -58,6 +60,8 @@ Route::get('/preview-pengajuan-terkirim', function () {
         'tanggal' => '13 November 2026',
     ]);
 });
+
+Route::get('/pengajuan-terkirim', [PengajuanController::class, 'terkirim']);
 
 // Halaman Ajukan KTM
 Route::get('/ajukan-ktm', function () {
