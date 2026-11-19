@@ -390,9 +390,9 @@
         </div>
 
         <nav class="nav-menu">
-            <a href="#beranda" class="active">Beranda</a>
-            <a href="#riwayat">Riwayat</a>
-            <a href="#bantuan">Bantuan</a>
+            <a href="{{ url('/beranda-mahasiswa') }}" class="active">Beranda</a>
+            <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
+            <a href="{{ url('/bantuan') }}">Bantuan</a>
             <a href="#profil">{{ $mahasiswa->nama }}</a>
         </nav>
     </header>
@@ -523,7 +523,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="footer" id="bantuan">
+    <footer class="footer">
 
         <div class="footer-info">
             <h2>
@@ -541,10 +541,10 @@
 
         <div class="footer-column">
             <h3>NAVIGASI</h3>
-            <a href="#beranda">Beranda</a>
-            <a href="#riwayat">Riwayat</a>
-            <a href="#bantuan">Bantuan</a>
-            <a href="#bantuan">Kontak Kemahasiswaan</a>
+            <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
+            <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
+            <a href="{{ url('/bantuan') }}">Bantuan</a>
+            <a href="#">Kontak Kemahasiswaan</a>
         </div>
 
         <div class="footer-column">

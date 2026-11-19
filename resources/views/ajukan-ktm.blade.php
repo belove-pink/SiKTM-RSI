@@ -87,9 +87,9 @@
         <span>UNIVERSITAS BRAWIJAYA</span>
       </div>
       <nav class='kanan'>
-        <a href='#' class='aktif'>Beranda</a>
-        <a href='#'>Riwayat</a>
-        <a href='#'>Bantuan</a>
+        <a href="{{ url('/beranda-mahasiswa') }}" class='aktif'>Beranda</a>
+        <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
+        <a href="{{ url('/bantuan') }}">Bantuan</a>
         <a href='#'>{{ $namaMahasiswa ?? 'NAMA MAHASISWA' }}</a>
       </nav>
     </div>
@@ -100,6 +100,14 @@
 
     @if (session('error'))
       <div class='error'>{{ session('error') }}</div>
+    @endif
+
+    @if ($errors->any())
+      <div class='error'>
+        @foreach ($errors->all() as $pesan)
+          <div>{{ $pesan }}</div>
+        @endforeach
+      </div>
     @endif
 
     <form class='form-card' method='POST' action='/ajukan-ktm' enctype='multipart/form-data'>
@@ -162,9 +170,9 @@
       <div class='kolom'>
         <div>
           <h4>NAVIGASI</h4>
-          <a href='#'>Beranda</a>
-          <a href='#'>Riwayat</a>
-          <a href='#'>Bantuan</a>
+          <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
+          <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
+          <a href="{{ url('/bantuan') }}">Bantuan</a>
           <a href='#'>Kontak Kemahasiswaan</a>
         </div>
         <div>
