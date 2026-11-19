@@ -7,6 +7,7 @@ use App\Http\Controllers\ValidasiPengajuanController;
 use App\Http\Controllers\TrackStatusController;
 use App\Http\Controllers\KontrolRekap;
 use App\Http\Controllers\BerandaMahasiswaController;
+use App\Http\Controllers\ProfilMahasiswaController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -193,9 +194,7 @@ Route::get('/preview-profil-mahasiswa', function () {
     ]);
 });
 
-// Keluar dari akun
-Route::post('/keluar', function () {
-    session()->flush();
-    return redirect('/login');
-});
+// Profil mahasiswa (data dari database)
+Route::get('/profil-mahasiswa', [ProfilMahasiswaController::class, 'tampil']);
+Route::post('/keluar', [ProfilMahasiswaController::class, 'keluar']);
 
