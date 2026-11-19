@@ -514,7 +514,7 @@
                     hilang, atau rusak?
                 </h2>
 
-                <a href="#" class="apply-button">
+                <a href="{{ url('/ajukan-ktm') }}" class="apply-button">
                     Ajukan KTM
                 </a>
             </section>

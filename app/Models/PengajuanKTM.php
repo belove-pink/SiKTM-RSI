@@ -16,8 +16,12 @@ class PengajuanKTM extends Model
         'idPengguna',
         'nim',
         'jalur',
+        'alasan',
         'dokumen',
+        'pas_foto',
+        'dokumen_pendukung',
         'status',
+        'catatan',
         'tanggalPengajuan'
     ];
 
@@ -45,4 +49,3 @@ class PengajuanKTM extends Model
         return $this->status;
     }
 }
-

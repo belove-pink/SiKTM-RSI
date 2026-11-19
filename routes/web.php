@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BerandaAdminFakultasController;
+use App\Http\Controllers\BerandaAdminRektoratController;
 use App\Http\Controllers\BerandaMahasiswaController;
 use App\Http\Controllers\KontrolRekap;
+use App\Http\Controllers\PengajuanKTMController;
 use App\Http\Controllers\TrackStatusController;
 use App\Http\Controllers\ValidasiPengajuanController;
 use App\Models\Pengguna;
@@ -22,39 +25,29 @@ Route::get('/login', function () {
 // Proses login
 Route::post('/login', [AuthController::class, 'login']);
 
-// Dashboard admin rektorat
-Route::get('/dashboard-admin-rektorat', function () {
-    $akun = Pengguna::find(session('idPengguna'));
+// Dashboard admin rektorat (URL tujuan login)
+Route::get('/dashboard-admin-rektorat', [
+    BerandaAdminRektoratController::class,
+    'index'
+])->name('beranda.admin.rektorat');
 
-    if (!$akun) {
-        return redirect('/login');
-    }
+// Alias URL dari branch fitur-beranda
+Route::get('/beranda-admin-rektorat', [
+    BerandaAdminRektoratController::class,
+    'index'
+]);
 
-    if ($akun->peran !== 'AdminRektorat') {
-        abort(403);
-    }
+// Dashboard admin fakultas (URL tujuan login)
+Route::get('/dashboard-admin-fakultas', [
+    BerandaAdminFakultasController::class,
+    'index'
+])->name('beranda.admin.fakultas');
 
-    return view('beranda-admin-rektorat', [
-        'admin' => $akun
-    ]);
-});
-
-// Dashboard admin fakultas
-Route::get('/dashboard-admin-fakultas', function () {
-    $akun = Pengguna::find(session('idPengguna'));
-
-    if (!$akun) {
-        return redirect('/login');
-    }
-
-    if ($akun->peran !== 'AdminFakultas') {
-        abort(403);
-    }
-
-    return view('beranda-admin-fakultas', [
-        'admin' => $akun
-    ]);
-});
+// Alias URL dari branch fitur-beranda
+Route::get('/beranda-admin-fakultas', [
+    BerandaAdminFakultasController::class,
+    'index'
+]);
 
 // Beranda mahasiswa
 Route::get('/beranda-mahasiswa', [
@@ -100,18 +93,44 @@ Route::get('/preview-pengajuan-terkirim', function () {
     ]);
 });
 
-// Halaman Ajukan KTM
+// Halaman Ajukan KTM (identitas diisi dari akun yang login)
 Route::get('/ajukan-ktm', function () {
     $daftarFakultas = DB::table('Fakultas')
         ->orderBy('namaFakultas')
         ->get();
 
+    $pengguna = Pengguna::find(session('idPengguna'));
+
+    $prodi = $pengguna
+        ? DB::table('Mahasiswa as m')
+            ->join('ProgramStudi as ps', 'ps.idProdi', '=', 'm.idProdi')
+            ->where('m.idPengguna', $pengguna->idPengguna)
+            ->value('ps.namaProdi')
+        : '';
+
+    $fakultas = $pengguna
+        ? DB::table('Fakultas')->where('idFakultas', $pengguna->idFakultas)->value('namaFakultas')
+        : '';
+
     return view('ajukan-ktm', [
-        'namaMahasiswa' => '',
-        'nim' => '',
-        'fakultas' => '',
-        'prodi' => '',
+        'namaMahasiswa' => $pengguna->nama ?? '',
+        'nim' => $pengguna->nim ?? '',
+        'fakultas' => $fakultas ?? '',
+        'prodi' => $prodi ?? '',
         'daftarFakultas' => $daftarFakultas,
+    ]);
+});
+
+// Menyimpan pengajuan dari form Ajukan KTM
+Route::post('/ajukan-ktm', [PengajuanKTMController::class, 'simpan']);
+
+// Halaman Pengajuan Terkirim
+Route::get('/pengajuan-terkirim', function () {
+    return view('pengajuan-terkirim', [
+        'namaMahasiswa' => session('namaMahasiswa'),
+        'alasan'        => session('alasan'),
+        'jalur'         => session('jalur'),
+        'tanggal'       => session('tanggal'),
     ]);
 });
 
@@ -207,22 +226,5 @@ Route::get('/preview-ajukan-ktm', function () {
             (object) ['namaFakultas' => 'Fakultas Ekonomi dan Bisnis'],
             (object) ['namaFakultas' => 'Fakultas Hukum'],
         ]),
-    ]);
-});
-
-Route::post('/ajukan-ktm', function (\Illuminate\Http\Request $request) {
-    return redirect('/pengajuan-terkirim')->with([
-        'alasan'  => $request->input('alasan'),
-        'jalur'   => 'Rektorat',
-        'tanggal' => now()->translatedFormat('d F Y'),
-    ]);
-});
-
-Route::get('/pengajuan-terkirim', function () {
-    return view('pengajuan-terkirim', [
-        'namaMahasiswa' => session('namaMahasiswa'),
-        'alasan'        => session('alasan'),
-        'jalur'         => session('jalur'),
-        'tanggal'       => session('tanggal'),
     ]);
 });
