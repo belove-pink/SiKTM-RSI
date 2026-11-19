@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\BantuanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ValidasiPengajuanController;
@@ -198,3 +199,5 @@ Route::get('/preview-profil-mahasiswa', function () {
 Route::get('/profil-mahasiswa', [ProfilMahasiswaController::class, 'tampil']);
 Route::post('/keluar', [ProfilMahasiswaController::class, 'keluar']);
 
+// Bantuan (FAQ)
+Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
