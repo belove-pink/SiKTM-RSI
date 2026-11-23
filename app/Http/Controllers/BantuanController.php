@@ -20,10 +20,12 @@ class BantuanController extends Controller
             $user = null; // tabel belum dimigrasi
         }
 
+        // Tombol Beranda mengikuti peran pengguna
         $urlBeranda = match ($user->peran ?? null) {
             'AdminFakultas' => url('/dashboard-admin-fakultas'),
             'AdminRektorat' => url('/dashboard-admin-rektorat'),
-            default         => Route::has('beranda') ? route('beranda') : url('/dashboard-mahasiswa'),
+            'Mahasiswa'     => url('/beranda-mahasiswa'),
+            default         => url('/login'),
         };
 
         // Daftar FAQ: menambah atau mengubah pertanyaan cukup di sini

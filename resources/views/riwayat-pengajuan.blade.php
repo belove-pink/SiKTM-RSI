@@ -209,9 +209,19 @@
             white-space: nowrap;
         }
 
+        .status.diajukan {
+            background: #e4ebf7;
+            color: #13305a;
+        }
+
         .status.diverifikasi {
             background: #fdebc0;
             color: #8a5a00;
+        }
+
+        .status.diterima {
+            background: #d5f1e5;
+            color: #16805a;
         }
 
         .status.siap-diambil {
@@ -381,10 +391,10 @@
         </div>
 
         <nav class="nav-menu">
-            <a href="#">Beranda</a>
+            <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
             <a href="{{ route('riwayat.pengajuan') }}" class="active">Riwayat</a>
-            <a href="#">Bantuan</a>
-            <a href="#">{{ auth()->user()->name ?? '[NAMA MAHASISWA]' }}</a>
+            <a href="{{ url('/bantuan') }}">Bantuan</a>
+            <a href="#">{{ strtoupper($nama ?? '[NAMA MAHASISWA]') }}</a>
         </nav>
     </header>
 
@@ -481,9 +491,9 @@
 
         <div class="footer-column">
             <h3>NAVIGASI</h3>
-            <a href="#">Beranda</a>
+            <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
             <a href="{{ route('riwayat.pengajuan') }}">Riwayat</a>
-            <a href="#">Bantuan</a>
+            <a href="{{ url('/bantuan') }}">Bantuan</a>
             <a href="#">Kontak Kemahasiswaan</a>
         </div>
 

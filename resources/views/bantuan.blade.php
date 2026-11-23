@@ -18,7 +18,7 @@
     </a>
     <nav class="nav-menu" aria-label="Menu utama">
         <a href="{{ $urlBeranda }}">Beranda</a>
-        <a href="#">Riwayat</a>
+        <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
         <a class="active" href="{{ route('bantuan') }}">Bantuan</a>
         @if ($nama)
             <a href="#">{{ strtoupper($nama) }}</a>
@@ -56,7 +56,7 @@
     <div class="footer-column">
         <h3>NAVIGASI</h3>
         <a href="{{ $urlBeranda }}">Beranda</a>
-        <a href="#">Riwayat</a>
+        <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
         <a href="{{ route('bantuan') }}">Bantuan</a>
         <a href="{{ $urlKontak }}">Kontak Kemahasiswaan</a>
     </div>
