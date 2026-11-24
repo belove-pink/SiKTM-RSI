@@ -110,6 +110,7 @@
 
         /* Nama admin (teks biasa) dan tombol Keluar */
         .nav-nama {
+            border-bottom: 3px solid transparent;
             height: 100%;
             display: flex;
             align-items: center;
@@ -396,7 +397,7 @@
         <nav class="nav-menu">
             <a href="{{ url('/dashboard-admin-rektorat') }}" class="active">Beranda</a>
             <a href="{{ url('/daftar-pengajuan') }}">Verifikasi</a>
-            <a href="#">Rekap</a>
+            <a href="{{ url('/rekap-ktm') }}">Rekap</a>
             <span class="nav-nama">{{ $admin->nama ?? $namaLogin ?? 'Admin' }}</span>
             <form class="nav-keluar" method="POST" action="{{ url('/keluar') }}">
                 @csrf
@@ -484,7 +485,7 @@
             <h3>NAVIGASI</h3>
             <a href="{{ url('/dashboard-admin-rektorat') }}">Beranda</a>
             <a href="{{ url('/daftar-pengajuan') }}">Verifikasi</a>
-            <a href="#">Rekap</a>
+            <a href="{{ url('/rekap-ktm') }}">Rekap</a>
         </div>
 
         <div class="footer-column">
