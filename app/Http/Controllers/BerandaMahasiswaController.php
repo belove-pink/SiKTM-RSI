@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class BerandaMahasiswaController extends Controller
 {
@@ -18,25 +19,38 @@ class BerandaMahasiswaController extends Controller
                 ->with('error', 'Silakan login terlebih dahulu.');
         }
 
+        // Menentukan kolom nim ada di tabel mana (Pengguna atau Mahasiswa)
+        $kolomSelect = [
+            'Pengguna.idPengguna',
+            'Pengguna.nama',
+            'Pengguna.peran',
+        ];
+
+        if (Schema::hasColumn('Pengguna', 'nim')) {
+            $kolomSelect[] = 'Pengguna.nim';
+        } elseif (Schema::hasColumn('Mahasiswa', 'nim')) {
+            $kolomSelect[] = 'Mahasiswa.nim';
+        }
+
         // Mengambil data mahasiswa yang sedang login
+        // leftJoin: tetap ketemu walau baris di tabel Mahasiswa belum ada
         $mahasiswa = DB::table('Pengguna')
-            ->join(
+            ->leftJoin(
                 'Mahasiswa',
                 'Pengguna.idPengguna',
                 '=',
                 'Mahasiswa.idPengguna'
             )
             ->where('Pengguna.idPengguna', $idPengguna)
-            ->where('Pengguna.peran', 'Mahasiswa')
-            ->select(
-                'Pengguna.idPengguna',
-                'Pengguna.nim',
-                'Pengguna.nama'
-            )
+            ->whereRaw('LOWER(TRIM("Pengguna"."peran")) = ?', ['mahasiswa'])
+            ->select($kolomSelect)
             ->first();
 
         // Memastikan data mahasiswa tersedia
         if (!$mahasiswa) {
+            // Hapus session supaya tidak terjadi loop redirect
+            session()->forget('idPengguna');
+
             return redirect('/login')
                 ->with('error', 'Data mahasiswa tidak ditemukan.');
         }
