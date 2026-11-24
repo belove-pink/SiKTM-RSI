@@ -108,6 +108,41 @@
             border-bottom-color: #f2aa00;
         }
 
+        /* Nama admin (teks biasa) dan tombol Keluar */
+        .nav-nama {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding-top: 3px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .nav-keluar {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: stretch;
+        }
+
+        .nav-keluar button {
+            padding: 3px 0 0;
+            border: 0;
+            border-bottom: 3px solid transparent;
+            background: none;
+            color: #ffffff;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav-keluar button:hover {
+            border-bottom-color: #f2aa00;
+        }
+
         /* ================= KONTEN ================= */
         .main-content {
             padding: 52px max(6%, calc((100% - var(--frame)) / 2 + 72px)) 32px;
@@ -359,10 +394,14 @@
         </div>
 
         <nav class="nav-menu">
-            <a href="#" class="active">Beranda</a>
-            <a href="#">Verifikasi</a>
+            <a href="{{ url('/dashboard-admin-rektorat') }}" class="active">Beranda</a>
+            <a href="{{ url('/daftar-pengajuan') }}">Verifikasi</a>
             <a href="#">Rekap</a>
-            <a href="#">{{ $admin->nama ?? '[ADMIN REKTORAT]' }}</a>
+            <span class="nav-nama">{{ $admin->nama ?? $namaLogin ?? 'Admin' }}</span>
+            <form class="nav-keluar" method="POST" action="{{ url('/keluar') }}">
+                @csrf
+                <button type="submit">Keluar</button>
+            </form>
         </nav>
     </header>
 
@@ -370,7 +409,7 @@
     <main class="main-content">
 
         <h1 class="greeting">
-            Selamat datang, {{ $admin->nama ?? '[Admin Rektorat]' }}
+            Selamat datang, {{ $admin->nama ?? $namaLogin ?? 'Admin' }}
         </h1>
 
         <p class="subtitle">Ringkasan pengajuan KTM Universitas Brawijaya</p>
@@ -417,7 +456,7 @@
                 </p>
             @endforelse
 
-            <a href="#" class="detail-link">
+            <a href="{{ url('/daftar-pengajuan') }}" class="detail-link">
                 Lihat seluruh pengajuan <span>&rarr;</span>
             </a>
         </section>
@@ -443,8 +482,8 @@
 
         <div class="footer-column">
             <h3>NAVIGASI</h3>
-            <a href="#">Beranda</a>
-            <a href="#">Verifikasi</a>
+            <a href="{{ url('/dashboard-admin-rektorat') }}">Beranda</a>
+            <a href="{{ url('/daftar-pengajuan') }}">Verifikasi</a>
             <a href="#">Rekap</a>
         </div>
 
