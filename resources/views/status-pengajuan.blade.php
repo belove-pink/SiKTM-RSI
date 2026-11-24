@@ -11,7 +11,8 @@
 </head>
 <body>
 @php
-    $namaUser = $nama ?? null;
+    // Nama pengguna yang sedang login (dikirim ke semua view oleh AppServiceProvider)
+    $namaUser = $namaLogin ?? null;
     if (!$namaUser && session('idPengguna')) {
         try {
             $namaUser = \App\Models\Pengguna::find(session('idPengguna'))?->nama;
@@ -19,8 +20,7 @@
             $namaUser = null;
         }
     }
-    // samakan dengan route Beranda temanmu
-    $urlBeranda = Route::has('beranda') ? route('beranda') : url('/beranda-manasiswa');
+    $urlBeranda = url('/beranda-mahasiswa');
 @endphp
 
 <header class="navbar">
@@ -31,9 +31,9 @@
     </a>
     <nav class="nav-menu" aria-label="Menu utama">
         <a href="{{ $urlBeranda }}">Beranda</a>
-        <a href="#">Riwayat</a>
-        <a href="#">Bantuan</a>
-        <a href="#">{{ strtoupper($namaUser ?? 'MAHASISWA') }}</a>
+        <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
+        <a href="{{ url('/bantuan') }}">Bantuan</a>
+        <a href="#">{{ $namaUser ?? 'Mahasiswa' }}</a>
     </nav>
 </header>
 
@@ -102,10 +102,10 @@
             </div>
 
             <div class="stepper">
-                @foreach (['Diajukan', 'Sedang Diverifikasi', 'Disetujui', 'KTM Siap Diambil'] as $nama)
+                @foreach (['Diajukan', 'Sedang Diverifikasi', 'Disetujui', 'KTM Siap Diambil'] as $namaTahap)
                     <div class="tahap">
                         <div class="bar"></div>
-                        <b>{{ $nama }}</b>
+                        <b>{{ $namaTahap }}</b>
                         <span>Belum dicek</span>
                     </div>
                 @endforeach
@@ -132,8 +132,8 @@
     <div class="footer-column">
         <h3>NAVIGASI</h3>
         <a href="{{ $urlBeranda }}">Beranda</a>
-        <a href="#">Riwayat</a>
-        <a href="#">Bantuan</a>
+        <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
+        <a href="{{ url('/bantuan') }}">Bantuan</a>
         <a href="#">Kontak Kemahasiswaan</a>
     </div>
     <div class="footer-column">

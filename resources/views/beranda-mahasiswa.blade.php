@@ -444,7 +444,7 @@
                         {{ $deskripsiStatus[$pengajuanTerbaru->status] ?? 'Pengajuan sedang diproses.' }}
                     </p>
 
-                    <a href="#" class="detail-link">
+                    <a href="{{ url('/status-pengajuan') }}" class="detail-link">
                         Lihat status lengkap <span>&rarr;</span>
                     </a>
 

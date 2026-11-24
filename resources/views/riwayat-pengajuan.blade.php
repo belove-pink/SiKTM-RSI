@@ -394,7 +394,7 @@
             <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
             <a href="{{ route('riwayat.pengajuan') }}" class="active">Riwayat</a>
             <a href="{{ url('/bantuan') }}">Bantuan</a>
-            <a href="#">{{ strtoupper($nama ?? '[NAMA MAHASISWA]') }}</a>
+            <a href="#">{{ $nama ?? 'Mahasiswa' }}</a>        
         </nav>
     </header>
 

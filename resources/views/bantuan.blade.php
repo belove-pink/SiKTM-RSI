@@ -21,7 +21,7 @@
         <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
         <a class="active" href="{{ route('bantuan') }}">Bantuan</a>
         @if ($nama)
-            <a href="#">{{ strtoupper($nama) }}</a>
+        <a href="#">{{ $nama }}</a>        
         @endif
     </nav>
 </header>
