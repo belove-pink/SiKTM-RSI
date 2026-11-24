@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BantuanController;
 use App\Http\Controllers\BerandaAdminFakultasController;
@@ -13,6 +14,9 @@ use App\Http\Controllers\TrackStatusController;
 use App\Http\Controllers\ValidasiPengajuanController;
 use App\Models\Pengguna;
 use Illuminate\Support\Facades\DB;
+=======
+use App\Http\Controllers\DaftarPengajuanController;
+>>>>>>> origin/fitur-daftar-pengajuan
 use Illuminate\Support\Facades\Route;
 
 // Halaman utama
@@ -20,6 +24,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+<<<<<<< HEAD
 // Halaman login
 Route::get('/login', function () {
     return view('login');
@@ -254,3 +259,7 @@ Route::get('/preview-ajukan-ktm', function () {
         ]),
     ]);
 });
+=======
+// Daftar Pengajuan KTM (Admin Fakultas dan Admin Rektorat)
+Route::get('/daftar-pengajuan', [DaftarPengajuanController::class, 'index'])->name('daftar-pengajuan');
+>>>>>>> origin/fitur-daftar-pengajuan

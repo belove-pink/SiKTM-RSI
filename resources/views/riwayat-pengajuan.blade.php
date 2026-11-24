@@ -448,3 +448,46 @@
                             &middot; No. {{ $item['id'] }}
                         </p>
                     </div>
+                     <span class="status {{ \Illuminate\Support\Str::slug($item['status']) }}">
+                        {{ $item['status'] }}
+                    </span>
+
+                    <a class="detail-link">
+                        Lihat detail <span>&rsaquo;</span>
+                    </a>
+
+                </article>
+
+            @empty
+
+                <div class="empty">
+                    Belum ada pengajuan untuk filter ini.
+                </div>
+
+            @endforelse
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-info">
+            <h2>KEMAHASISWAAN UNIVERSITAS BRAWIJAYA</h2>
+            <p>Layanan pengajuan KTM mahasiswa Universitas Brawijaya.</p>
+        </div>
+
+        <div class="footer-column">
+            <h3>NAVIGASI</h3>
+            <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
+            <a href="{{ route('riwayat.pengajuan') }}">Riwayat</a>
+            <a href="{{ url('/bantuan') }}">Bantuan</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>LEGAL</h3>
+            <a href="#">Kebijakan Privasi</a>
+        </div>
+    </footer>
+
+</body>
+</html>
