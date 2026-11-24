@@ -90,7 +90,7 @@
         <a href="{{ url('/beranda-mahasiswa') }}" class='aktif'>Beranda</a>
         <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
         <a href="{{ url('/bantuan') }}">Bantuan</a>
-        <a href='#'>{{ $namaMahasiswa ?? 'NAMA MAHASISWA' }}</a>
+        <a href="{{ url('/profil-mahasiswa') }}">{{ $namaMahasiswa ?: ($namaLogin ?? 'Profil') }}</a>
       </nav>
     </div>
   </header>
@@ -173,7 +173,7 @@
           <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
           <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
           <a href="{{ url('/bantuan') }}">Bantuan</a>
-          <a href='#'>Kontak Kemahasiswaan</a>
+          <a href='#'>Kontak Kemahasiswaan</a>        
         </div>
         <div>
           <h4>LEGAL</h4>

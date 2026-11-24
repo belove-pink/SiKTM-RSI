@@ -393,7 +393,7 @@
             <a href="{{ url('/beranda-mahasiswa') }}" class="active">Beranda</a>
             <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
             <a href="{{ url('/bantuan') }}">Bantuan</a>
-            <a href="#profil">{{ $mahasiswa->nama }}</a>
+            <a href="{{ url('/profil-mahasiswa') }}">{{ $mahasiswa->nama }}</a>
         </nav>
     </header>
 

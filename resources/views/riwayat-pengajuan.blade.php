@@ -394,7 +394,7 @@
             <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
             <a href="{{ route('riwayat.pengajuan') }}" class="active">Riwayat</a>
             <a href="{{ url('/bantuan') }}">Bantuan</a>
-            <a href="#">{{ $nama ?? 'Mahasiswa' }}</a>        
+            <a href="{{ url('/profil-mahasiswa') }}">{{ $nama ?? 'Mahasiswa' }}</a>
         </nav>
     </header>
 
@@ -448,62 +448,3 @@
                             &middot; No. {{ $item['id'] }}
                         </p>
                     </div>
-
-                    <span class="status {{ $item['kondisi'] }}">
-                        {{ $item['status'] }}
-                    </span>
-
-                    <!-- Akan dihubungkan saat integrasi branch status-pengajuan -->
-                    <span class="detail-link" aria-disabled="true">
-                        Detail <span>&rarr;</span>
-                    </span>
-
-                </article>
-
-            @empty
-
-                <div class="empty">
-                    Tidak ada pengajuan dengan status tersebut.
-                </div>
-
-            @endforelse
-
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-
-        <div class="footer-info">
-            <h2>
-                KEMAHASISWAAN<br>
-                UNIVERSITAS BRAWIJAYA
-            </h2>
-
-            <p>
-                SiKTM adalah sistem informasi pengajuan dan pemantauan
-                Kartu Tanda Mahasiswa. Layanan ini dikelola oleh
-                Kemahasiswaan untuk memudahkan mahasiswa mengurus KTM
-                secara cepat, jelas, dan transparan.
-            </p>
-        </div>
-
-        <div class="footer-column">
-            <h3>NAVIGASI</h3>
-            <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
-            <a href="{{ route('riwayat.pengajuan') }}">Riwayat</a>
-            <a href="{{ url('/bantuan') }}">Bantuan</a>
-            <a href="#">Kontak Kemahasiswaan</a>
-        </div>
-
-        <div class="footer-column">
-            <h3>LEGAL</h3>
-            <a href="#">Kebijakan Privasi</a>
-            <a href="#">Ketentuan Layanan</a>
-        </div>
-
-    </footer>
-
-</body>
-</html>

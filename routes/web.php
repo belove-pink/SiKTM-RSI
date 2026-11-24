@@ -7,6 +7,7 @@ use App\Http\Controllers\BerandaAdminRektoratController;
 use App\Http\Controllers\BerandaMahasiswaController;
 use App\Http\Controllers\KontrolRekap;
 use App\Http\Controllers\PengajuanKTMController;
+use App\Http\Controllers\ProfilMahasiswaController;
 use App\Http\Controllers\RiwayatPengajuanController;
 use App\Http\Controllers\TrackStatusController;
 use App\Http\Controllers\ValidasiPengajuanController;
@@ -56,6 +57,14 @@ Route::get('/beranda-mahasiswa', [
     BerandaMahasiswaController::class,
     'index'
 ])->name('beranda.mahasiswa');
+
+// Profil mahasiswa (data dari database)
+Route::get('/profil-mahasiswa', [ProfilMahasiswaController::class, 'tampil'])
+    ->name('profil-mahasiswa');
+
+// Keluar dari akun
+Route::post('/keluar', [ProfilMahasiswaController::class, 'keluar'])
+    ->name('keluar');
 
 // Bantuan (FAQ)
 Route::get('/bantuan', [BantuanController::class, 'index'])->name('bantuan');
