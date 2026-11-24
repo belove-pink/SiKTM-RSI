@@ -60,12 +60,13 @@ class PengajuanKTMController extends Controller
             ? $request->file('suratKehilangan')->store('pengajuan-ktm/surat', 'public')
             : null;
 
-        // Simpan pengajuan ke database
+        // Simpan pengajuan ke database (kolom 'dokumen' di database wajib terisi)
         PengajuanKTM::create([
             'idPengguna'        => $idPengguna,
             'nim'               => $pengguna->nim,
             'jalur'             => 'Rektorat',
             'alasan'            => $validated['alasan'],
+            'dokumen'           => $pasFoto,
             'pas_foto'          => $pasFoto,
             'dokumen_pendukung' => $surat,
             'status'            => 'Diajukan',
