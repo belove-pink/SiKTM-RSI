@@ -38,13 +38,13 @@
         </section>
 
         <section class="info-card">
-            <h2>Jam layanan</h2>
+            <h2>Jam Layanan</h2>
             <p class="tebal">{{ $kontak['hari'] }}</p>
             <p class="redup">{{ $kontak['jam'] }}</p>
         </section>
 
         <section class="info-card">
-            <h2>Email dan telepon</h2>
+            <h2>Email dan Telepon</h2>
             <p class="tebal"><a href="{{ $mailto }}">{{ $kontak['email'] }}</a></p>
             <p class="redup">
                 @if (preg_match('/\d/', $kontak['telepon']))
@@ -56,7 +56,7 @@
         </section>
 
         {{-- Tombol ini membuka aplikasi email dengan isian yang sudah terisi --}}
-        <a class="email-btn" href="{{ $mailto }}">Kirim email ke Kemahasiswaan</a>
+        <a class="email-btn" href="{{ $mailto }}">Kontak Kemahasiswaan</a>
         <p class="email-alt">Email tidak terbuka? <a href="{{ $gmail }}" target="_blank" rel="noopener">Buka lewat Gmail</a></p>
     </div>
 </main>

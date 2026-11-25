@@ -8,14 +8,15 @@ use Illuminate\Support\Facades\Route;
 // Halaman Kontak Kemahasiswaan
 class KontakController extends Controller
 {
-    // Data kontak: GANTI dengan data Kemahasiswaan yang sebenarnya
+
+    // Data kontak Kemahasiswaan
     private const KONTAK = [
-        'gedung'  => '[Nama gedung Kemahasiswaan]',
-        'kota'    => 'Universitas Brawijaya, Malang',
-        'hari'    => 'Senin sampai Jumat',
-        'jam'     => '08.00 sampai 15.00 WIB',
-        'email'   => 'kemahasiswaan@example.com',
-        'telepon' => '[nomor telepon]',
+        'gedung'  => 'Gedung Rektorat Universitas Brawijaya',
+        'kota'    => 'Jl. Veteran, Ketawanggede, Kec. Lowokwaru, Kota Malang, Jawa Timur 65145',
+        'hari'    => 'Senin – Jumat',
+        'jam'     => 'Pukul 08.00 sampai dengan 16.00',
+        'email'   => 'kemahasiswaan@ub.ac.id',
+        'telepon' => '081234567890',
     ];
 
     public function index()
