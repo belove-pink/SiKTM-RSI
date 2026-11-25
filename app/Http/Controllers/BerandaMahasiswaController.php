@@ -42,8 +42,7 @@ class BerandaMahasiswaController extends Controller
                 'Mahasiswa.idPengguna'
             )
             ->where('Pengguna.idPengguna', $idPengguna)
-            ->whereRaw('LOWER(TRIM("Pengguna"."peran")) = ?', ['mahasiswa'])
-            ->select($kolomSelect)
+            ->where('Pengguna.peran', 'Mahasiswa')            ->select($kolomSelect)
             ->first();
 
         // Memastikan data mahasiswa tersedia
