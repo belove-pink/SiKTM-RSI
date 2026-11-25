@@ -10,6 +10,20 @@
     <style>{!! file_get_contents(resource_path('css/bantuan.css')) !!}</style>
 </head>
 <body>
+
+@php
+    // GANTI dengan alamat email Kemahasiswaan yang sebenarnya
+    $emailKontak = 'kemahasiswaan@ub.ac.id';
+    $subjekKontak = 'Bantuan SiKTM';
+
+    // Link buka aplikasi email bawaan perangkat
+    $urlKontak = 'mailto:' . $emailKontak . '?subject=' . rawurlencode($subjekKontak);
+
+    // Link buka jendela tulis email Gmail di tab baru
+    $urlGmail = 'https://mail.google.com/mail/?view=cm&fs=1&to=' . rawurlencode($emailKontak)
+        . '&su=' . rawurlencode($subjekKontak);
+@endphp
+
 <header class="navbar">
     <a class="brand" href="{{ $urlBeranda }}">
         <img src="{{ asset('images/logo-ub.png') }}" alt="Logo Universitas Brawijaya">
@@ -43,7 +57,7 @@
         <aside class="help-card">
             <h2>Belum ketemu jawabannya?</h2>
             <p>Tim Kemahasiswaan siap membantu pada hari kerja. Ceritakan masalahmu dan kami balas lewat email.</p>
-            <a class="help-btn" href="{{ $urlKontak }}">Hubungi Kemahasiswaan</a>
+            <a class="help-btn" href="{{ $urlGmail }}" target="_blank" rel="noopener">Hubungi Kemahasiswaan</a>
         </aside>
     </div>
 </main>
@@ -58,7 +72,7 @@
         <a href="{{ $urlBeranda }}">Beranda</a>
         <a href="{{ url('/riwayat-pengajuan') }}">Riwayat</a>
         <a href="{{ route('bantuan') }}">Bantuan</a>
-        <a href="{{ $urlKontak }}">Kontak Kemahasiswaan</a>
+        <a href="{{ $urlGmail }}" target="_blank" rel="noopener">Kontak Kemahasiswaan</a>
     </div>
     <div class="footer-column">
         <h3>LEGAL</h3>
@@ -66,5 +80,6 @@
         <a href="#">Ketentuan Layanan</a>
     </div>
 </footer>
+
 </body>
 </html>

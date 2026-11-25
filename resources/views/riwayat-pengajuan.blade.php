@@ -105,18 +105,6 @@
             border-bottom-color: #f2aa00;
         }
 
-        /* Nama admin (teks biasa) dan tombol Keluar */
-        .nav-nama {
-            border-bottom: 3px solid transparent;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding-top: 3px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
         /* KONTEN */
         .main-content {
             max-width: 1200px;
@@ -400,7 +388,7 @@
             <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
             <a href="{{ route('riwayat.pengajuan') }}" class="active">Riwayat</a>
             <a href="{{ url('/bantuan') }}">Bantuan</a>
-            <span class="nav-nama">{{ $nama ?? 'Mahasiswa' }}</span>
+            <a href="{{ url('/profil-mahasiswa') }}">{{ $nama ?? 'Mahasiswa' }}</a>
         </nav>
     </header>
 
@@ -454,7 +442,8 @@
                             &middot; No. {{ $item['id'] }}
                         </p>
                     </div>
-                     <span class="status {{ \Illuminate\Support\Str::slug($item['status']) }}">
+
+                    <span class="status {{ \Illuminate\Support\Str::slug($item['status']) }}">
                         {{ $item['status'] }}
                     </span>
 
