@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -35,8 +34,7 @@
 
         .brand-name,
         .page-title,
-        .item-title,
-        .footer-info h2 {
+        .item-title {
             font-family: var(--heading-font);
             font-optical-sizing: none;
             font-variation-settings: 'opsz' 96;
@@ -44,13 +42,13 @@
 
         /* NAVBAR */
         .navbar {
-            min-height: 66px;
+            height: 66px;
             padding: 0 max(2.5%, calc((100% - var(--frame)) / 2 + 37px));
             background: var(--navy);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: white;
+            color: #ffffff;
         }
 
         .brand {
@@ -67,7 +65,7 @@
         }
 
         .brand-name {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 800;
             letter-spacing: -0.4px;
         }
@@ -77,7 +75,7 @@
         }
 
         .brand-univ {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             letter-spacing: 0.2px;
         }
@@ -85,17 +83,17 @@
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 38px;
-            min-height: 66px;
+            gap: 40px;
+            height: 66px;
         }
 
         .nav-menu a {
-            min-height: 66px;
+            height: 100%;
             display: flex;
             align-items: center;
-            color: white;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             border-bottom: 3px solid transparent;
             padding-top: 3px;
@@ -105,6 +103,18 @@
         .nav-menu a:hover,
         .nav-menu a.active {
             border-bottom-color: #f2aa00;
+        }
+
+        /* Nama admin (teks biasa) dan tombol Keluar */
+        .nav-nama {
+            border-bottom: 3px solid transparent;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding-top: 3px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #ffffff;
         }
 
         /* KONTEN */
@@ -263,28 +273,28 @@
 
         /* FOOTER */
         .footer {
-            padding: 46px max(5.6%, calc((100% - var(--frame)) / 2 + 72px)) 50px;
+            padding: 60px max(7.2%, calc((100% - var(--frame)) / 2 + 87px)) 68px;
             background: var(--navy);
             color: white;
             display: grid;
-            grid-template-columns: 1fr 172px 120px;
+            grid-template-columns: 1fr 180px 120px;
             gap: 40px;
             align-items: start;
         }
 
         .footer-info h2 {
-            margin: 0 0 18px;
-            font-size: 26px;
-            line-height: 1.2;
-            font-weight: 700;
+            margin: 0 0 22px;
+            font-size: 24px;
+            line-height: 1.3;
+            font-weight: 600;
         }
 
         .footer-info p {
-            max-width: 330px;
+            max-width: 420px;
             margin: 0;
             color: #dce8f8;
             font-size: 12px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .footer-column h3 {
@@ -313,13 +323,9 @@
 
             .nav-menu {
                 width: 100%;
-                min-height: 38px;
+                height: 38px;
                 justify-content: space-between;
                 gap: 10px;
-            }
-
-            .nav-menu a {
-                min-height: 38px;
             }
 
             .main-content {
@@ -394,7 +400,7 @@
             <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
             <a href="{{ route('riwayat.pengajuan') }}" class="active">Riwayat</a>
             <a href="{{ url('/bantuan') }}">Bantuan</a>
-            <a href="{{ url('/profil-mahasiswa') }}">{{ $nama ?? 'Mahasiswa' }}</a>
+            <span class="nav-nama">{{ $nama ?? 'Mahasiswa' }}</span>
         </nav>
     </header>
 
@@ -471,9 +477,19 @@
 
     <!-- FOOTER -->
     <footer class="footer">
+
         <div class="footer-info">
-            <h2>KEMAHASISWAAN UNIVERSITAS BRAWIJAYA</h2>
-            <p>Layanan pengajuan KTM mahasiswa Universitas Brawijaya.</p>
+            <h2>
+                KEMAHASISWAAN<br>
+                UNIVERSITAS BRAWIJAYA
+            </h2>
+
+            <p>
+                SiKTM adalah sistem informasi pengajuan dan pemantauan
+                Kartu Tanda Mahasiswa Universitas Brawijaya. Layanan ini
+                dikelola oleh Kemahasiswaan untuk memudahkan mahasiswa
+                mengurus KTM secara cepat, jelas, dan transparan.
+            </p>
         </div>
 
         <div class="footer-column">
@@ -481,12 +497,15 @@
             <a href="{{ url('/beranda-mahasiswa') }}">Beranda</a>
             <a href="{{ route('riwayat.pengajuan') }}">Riwayat</a>
             <a href="{{ url('/bantuan') }}">Bantuan</a>
+            <a href="#">Kontak Kemahasiswaan</a>
         </div>
 
         <div class="footer-column">
             <h3>LEGAL</h3>
             <a href="#">Kebijakan Privasi</a>
+            <a href="#">Ketentuan Layanan</a>
         </div>
+
     </footer>
 
 </body>
